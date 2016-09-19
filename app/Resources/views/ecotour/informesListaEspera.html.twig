@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+{% block title %} {{ parent() }} {% endblock %}
+{% block sidebar %} {{ parent() }} {% endblock %}
+{% block topnav %} {{ parent() }} {% endblock %}
+{% block body %} {{ parent() }}
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <h3> Informes Diarios</h3>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+						
+                </div>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>            
+            <!-- Lista de espera -->
+            <div class="clearfix"></div>
+            <!-- Lista de espera -->
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                <h3>Lista de espera</h3>
+                <ul class="nav navbar-right panel_toolbox">
+                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                  </li>
+                </ul>
+                <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                <div class="x_content">
+                <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>
+                            <th class="column-title">DNI </th>
+                            <th class="column-title">Contacto </th>
+                            <th class="column-title">Teléfono</th>
+                            <th class="column-title">Servicio </th>
+                            <th class="bulk-actions" colspan="4">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Acciones ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                          <tbody>
+							  
+							{% set i = 0%}
+							{% for item in reservas %}
+								{% if i is divisible by (2) %} <tr class="even pointer"> {% else %} <tr class="odd pointer"> {% endif %}
+									<td class="a-center ">
+									<input type="checkbox" class="flat" name="table_records">
+									</td>
+									<td class=" ">{{item.cliente.dni}}</td>
+									<td class=" ">{{item.cliente.apellido}} {{item.cliente.nombre}}</td>
+									<td class=" ">{{item.cliente.telefono1}}</td>
+									<td class=" ">Camping</td>
+							{% endfor%}
+                       
+                        </tbody>                          
+                        </thead>
+                        </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>          
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="{{ asset('assets/vendors/jquery/dist/jquery.min.js') }}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <!-- FastClick -->
+    <script src="{{ asset('assets/vendors/fastclick/lib/fastclick.js') }}"></script>
+    <!-- NProgress -->
+    <script src="{{ asset('assets/vendors/nprogress/nprogress.js') }}"></script>
+    <!-- iCheck -->
+    <script src="{{ asset('assets/vendors/iCheck/icheck.min.js') }}"></script>
+
+	<!-- Custom Theme Scripts -->
+    <script src="{{ asset('assets/js/custom.min.js') }}"></script>
+    
+{% endblock %}

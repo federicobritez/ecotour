@@ -1,0 +1,991 @@
+{% extends 'base.html.twig' %}
+{% block title %} {{ parent() }} {% endblock %}
+{% block sidebar %} {{ parent() }} {% endblock %}
+{% block topnav %} {{ parent() }} {% endblock %}
+{% block body %} {{ parent() }}
+
+		<!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Añadir Reserva</h3>
+						
+              </div> 
+            </div>
+            <div class="clearfix"></div>
+			<form id="form_reserva" action="{{ path('reservas_page', {'page': 'finalizar'}) }}" method="post">
+            <div class="row">
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Etapas de Reservación <small>Online</small></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+
+                    <!-- Smart Wizard -->
+                    <p> Rellene los formularios y precione siguiente para pasar a la siguiente etapa</p>
+                    <div id="wizard" class="form_wizard wizard_horizontal">
+                      <ul class="wizard_steps">
+                        <li>
+                          <a href="#step-1">
+                            <span class="step_no">1</span>
+                            <span class="step_descr">
+                                              Paso 1<br />
+                                              <small>Ingreso de Cliente</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-2">
+                            <span class="step_no">2</span>
+                            <span class="step_descr">
+                                              Paso 2<br />
+                                              <small>Selección de Servicios</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-3">
+                            <span class="step_no">3</span>
+                            <span class="step_descr">
+                                              Paso 3<br />
+                                              <small>Configure los Servicios</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <!--
+                        <li>
+                          <a href="#step-4">
+                            <span class="step_no">4</span>
+                            <span class="step_descr">
+                                              Step 4<br />
+                                              <small>Finalizar Rerserva</small>
+                                          </span>
+                          </a>
+                        </li>
+                        -->
+                      </ul>
+                     
+                      <div id="step-1">
+						      <div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="x_panel">
+								  <div class="x_title">
+									<h2>Clientes <small>Registrados en Sistema</small></h2>
+									<ul class="nav navbar-rigth panel_toolbox">
+									  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a> </li>
+									</ul>
+									<div class="clearfix"></div>
+								  </div>
+								  <div class="x_content">
+
+									<div class="form-horizontal form-label-left">
+									  <div class="form-group">
+											 <label class="control-label col-md-3 col-sm-3 col-xs-12">Buscar</label>
+												<div class="col-md-9 col-sm-9 col-xs-12">
+													<input type="text" name="cliente_registrado" id="autocomplete-custom-append" class="form-control col-md-10" style="float: left;" />
+													<div id="autocomplete-container" style="position: relative; float: left; width: 400px; margin: 10px;"></div>
+													<div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+													  <a type="btn btn-default submit" href="{{ path('reservas_page', {'page': 'nueva'}) }}" class="btn btn-primary">Nuevo</a>
+													  <input type="hidden" id="nuevoCliente"  name="origenCliente" value="">
+													  <input type="submit" name="acceptCliente" class="btn btn-success" value="Usar" onclick="setOrigenDatosCliente()">
+										</div>
+												</div>
+											</div>
+									
+								  </div>
+								  </div>
+					</div>
+					</div>
+						  
+						  
+                        <div class="form-horizontal form-label-left" id="form_nuevo_cliente">
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name"  >Nombres <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12" name="nombre">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name" >Apellido<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input type="text" id="last-name"  required="required" class="form-control col-md-7 col-xs-12" name="apellido">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="dni" class="control-label col-md-3 col-sm-3 col-xs-12" >DNI/CI</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="dni">
+                            </div>
+                          </div>
+                          <div class="form-group">
+							  <label for="telefon1" class="control-label col-md-3 col-sm-3 col-xs-12" name="tel">Telefono1</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="telefono1">
+                            </div>
+                          </div>
+                          <div class="form-group">
+							  <label for="telefon1" class="control-label col-md-3 col-sm-3 col-xs-12" name="tel2">Telefono2</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="telefono2">
+                            </div>
+                          </div>
+                          <div class="form-group">
+							  <label for="telefon1" class="control-label col-md-3 col-sm-3 col-xs-12" name="correo1">CorreoElectronico</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="correo">
+                            </div>
+                          </div>
+                          <div class="form-group">
+							  <label for="pais" class="control-label col-md-3 col-sm-3 col-xs-12" name="pais-label">Pais</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+                              <select class="form-control has-feedback-left " placeholder="País" name="pais">
+                            <option selected>País</option>
+                            <option value="AF">Afganistán</option> 
+                            <option value="AL">Albania</option> 
+                            <option value="DE">Alemania</option> 
+                            <option value="AD">Andorra</option> 
+                            <option value="AO">Angola</option> 
+                            <option value="AI">Anguilla</option> 
+                            <option value="AQ">Antártida</option> 
+                            <option value="AG">Antigua y Barbuda</option> 
+                            <option value="AN">Antillas Holandesas</option> 
+                            <option value="SA">Arabia Saudí</option> 
+                            <option value="DZ">Argelia</option> 
+                            <option value="AR">Argentina</option> 
+                            <option value="AM">Armenia</option> 
+                            <option value="AW">Aruba</option> 
+                            <option value="AU">Australia</option> 
+                            <option value="AT">Austria</option>  
+                            <option value="AZ">Azerbaiyán</option>  
+                            <option value="BS">Bahamas</option>  
+                            <option value="BH">Bahrein</option>  
+                            <option value="BD">Bangladesh</option>  
+                            <option value="BB">Barbados</option>  
+                            <option value="BE">Bélgica</option>  
+                            <option value="BZ">Belice</option>  
+                            <option value="BJ">Benin</option>  
+                            <option value="BM">Bermudas</option>  
+                            <option value="BY">Bielorrusia</option>  
+                            <option value="MM">Birmania</option>  
+                            <option value="BO">Bolivia</option>  
+                            <option value="BA">Bosnia y Herzegovina</option>  
+                            <option value="BW">Botswana</option>  
+                            <option value="BR">Brasil</option>  
+                            <option value="BN">Brunei</option>  
+                            <option value="BG">Bulgaria</option>  
+                            <option value="BF">Burkina Faso</option>  
+                            <option value="BI">Burundi</option>  
+                            <option value="BT">Bután</option>  
+                            <option value="CV">Cabo Verde</option>  
+                            <option value="KH">Camboya</option>  
+                            <option value="CM">Camerún</option>  
+                            <option value="CA">Canadá</option>  
+                            <option value="TD">Chad</option>  
+                            <option value="CL">Chile</option>  
+                            <option value="CN">China</option>  
+                            <option value="CY">Chipre</option>  
+                            <option value="VA">Ciudad del Vaticano (Santa Sede)</option>  
+                            <option value="CO">Colombia</option>  
+                            <option value="KM">Comores</option>  
+                            <option value="CG">Congo</option>  
+                            <option value="CD">Congo, República Democrática del</option>  
+                            <option value="KR">Corea</option>  
+                            <option value="KP">Corea del Norte</option>  
+                            <option value="CI">Costa de Marfíl</option>  
+                            <option value="CR">Costa Rica</option>  
+                            <option value="HR">Croacia (Hrvatska)</option>  
+                            <option value="CU">Cuba</option>  
+                            <option value="DK">Dinamarca</option>  
+                            <option value="DJ">Djibouti</option>  
+                            <option value="DM">Dominica</option>  
+                            <option value="EC">Ecuador</option>  
+                            <option value="EG">Egipto</option>  
+                            <option value="SV">El Salvador</option>  
+                            <option value="AE">Emiratos Árabes Unidos</option>  
+                            <option value="ER">Eritrea</option>  
+                            <option value="SI">Eslovenia</option>  
+                            <option value="ES">España</option>  
+                            <option value="US">Estados Unidos</option>  
+                            <option value="EE">Estonia</option>  
+                            <option value="ET">Etiopía</option>  
+                            <option value="FJ">Fiji</option>  
+                            <option value="PH">Filipinas</option>  
+                            <option value="FI">Finlandia</option>  
+                            <option value="FR">Francia</option>  
+                            <option value="GA">Gabón</option>  
+                            <option value="GM">Gambia</option>  
+                            <option value="GE">Georgia</option>  
+                            <option value="GH">Ghana</option>  
+                            <option value="GI">Gibraltar</option>  
+                            <option value="GD">Granada</option>  
+                            <option value="GR">Grecia</option>  
+                            <option value="GL">Groenlandia</option>  
+                            <option value="GP">Guadalupe</option>  
+                            <option value="GU">Guam</option>  
+                            <option value="GT">Guatemala</option>  
+                            <option value="GY">Guayana</option>  
+                            <option value="GF">Guayana Francesa</option>  
+                            <option value="GN">Guinea</option>  
+                            <option value="GQ">Guinea Ecuatorial</option>  
+                            <option value="GW">Guinea-Bissau</option>  
+                            <option value="HT">Haití</option>  
+                            <option value="HN">Honduras</option>  
+                            <option value="HU">Hungría</option>  
+                            <option value="IN">India</option>  
+                            <option value="ID">Indonesia</option>  
+                            <option value="IQ">Irak</option>  
+                            <option value="IR">Irán</option>  
+                            <option value="IE">Irlanda</option>  
+                            <option value="BV">Isla Bouvet</option>  
+                            <option value="CX">Isla de Christmas</option>  
+                            <option value="IS">Islandia</option>  
+                            <option value="KY">Islas Caimán</option>  
+                            <option value="CK">Islas Cook</option>  
+                            <option value="CC">Islas de Cocos o Keeling</option>  
+                            <option value="FO">Islas Faroe</option>  
+                            <option value="HM">Islas Heard y McDonald</option>  
+                            <option value="FK">Islas Malvinas</option>  
+                            <option value="MP">Islas Marianas del Norte</option>  
+                            <option value="MH">Islas Marshall</option>  
+                            <option value="UM">Islas menores de Estados Unidos</option>  
+                            <option value="PW">Islas Palau</option>  
+                            <option value="SB">Islas Salomón</option>  
+                            <option value="SJ">Islas Svalbard y Jan Mayen</option>  
+                            <option value="TK">Islas Tokelau</option>  
+                            <option value="TC">Islas Turks y Caicos</option>  
+                            <option value="VI">Islas Vírgenes (EE.UU.)</option>  
+                            <option value="VG">Islas Vírgenes (Reino Unido)</option>  
+                            <option value="WF">Islas Wallis y Futuna</option>  
+                            <option value="IL">Israel</option>  
+                            <option value="IT">Italia</option>  
+                            <option value="JM">Jamaica</option>  
+                            <option value="JP">Japón</option>  
+                            <option value="JO">Jordania</option>  
+                            <option value="KZ">Kazajistán</option>  
+                            <option value="KE">Kenia</option>  
+                            <option value="KG">Kirguizistán</option>  
+                            <option value="KI">Kiribati</option>  
+                            <option value="KW">Kuwait</option>  
+                            <option value="LA">Laos</option>  
+                            <option value="LS">Lesotho</option>  
+                            <option value="LV">Letonia</option>  
+                            <option value="LB">Líbano</option>  
+                            <option value="LR">Liberia</option>  
+                            <option value="LY">Libia</option>  
+                            <option value="LI">Liechtenstein</option>  
+                            <option value="LT">Lituania</option>  
+                            <option value="LU">Luxemburgo</option>  
+                            <option value="MK">Macedonia, Ex-República Yugoslava de</option>  
+                            <option value="MG">Madagascar</option>  
+                            <option value="MY">Malasia</option>  
+                            <option value="MW">Malawi</option>  
+                            <option value="MV">Maldivas</option>  
+                            <option value="ML">Malí</option>  
+                            <option value="MT">Malta</option>  
+                            <option value="MA">Marruecos</option>  
+                            <option value="MQ">Martinica</option>  
+                            <option value="MU">Mauricio</option>  
+                            <option value="MR">Mauritania</option>  
+                            <option value="YT">Mayotte</option>  
+                            <option value="MX">México</option>  
+                            <option value="FM">Micronesia</option>  
+                            <option value="MD">Moldavia</option>  
+                            <option value="MC">Mónaco</option>  
+                            <option value="MN">Mongolia</option>  
+                            <option value="MS">Montserrat</option>  
+                            <option value="MZ">Mozambique</option>  
+                            <option value="NA">Namibia</option>  
+                            <option value="NR">Nauru</option>  
+                            <option value="NP">Nepal</option>  
+                            <option value="NI">Nicaragua</option>  
+                            <option value="NE">Níger</option>  
+                            <option value="NG">Nigeria</option>  
+                            <option value="NU">Niue</option>  
+                            <option value="NF">Norfolk</option>  
+                            <option value="NO">Noruega</option>  
+                            <option value="NC">Nueva Caledonia</option>  
+                            <option value="NZ">Nueva Zelanda</option>  
+                            <option value="OM">Omán</option>  
+                            <option value="NL">Países Bajos</option>  
+                            <option value="PA">Panamá</option>  
+                            <option value="PG">Papúa Nueva Guinea</option>  
+                            <option value="PK">Paquistán</option>  
+                            <option value="PY">Paraguay</option>  
+                            <option value="PE">Perú</option>  
+                            <option value="PN">Pitcairn</option>  
+                            <option value="PF">Polinesia Francesa</option>  
+                            <option value="PL">Polonia</option>  
+                            <option value="PT">Portugal</option>  
+                            <option value="PR">Puerto Rico</option>  
+                            <option value="QA">Qatar</option>  
+                            <option value="UK">Reino Unido</option>  
+                            <option value="CF">República Centroafricana</option>  
+                            <option value="CZ">República Checa</option>  
+                            <option value="ZA">República de Sudáfrica</option>  
+                            <option value="DO">República Dominicana</option>  
+                            <option value="SK">República Eslovaca</option>  
+                            <option value="RE">Reunión</option>  
+                            <option value="RW">Ruanda</option>  
+                            <option value="RO">Rumania</option>  
+                            <option value="RU">Rusia</option>  
+                            <option value="EH">Sahara Occidental</option>  
+                            <option value="KN">Saint Kitts y Nevis</option>  
+                            <option value="WS">Samoa</option>  
+                            <option value="AS">Samoa Americana</option>  
+                            <option value="SM">San Marino</option>  
+                            <option value="VC">San Vicente y Granadinas</option>  
+                            <option value="SH">Santa Helena</option>  
+                            <option value="LC">Santa Lucía</option>  
+                            <option value="ST">Santo Tomé y Príncipe</option>  
+                            <option value="SN">Senegal</option>  
+                            <option value="SC">Seychelles</option>  
+                            <option value="SL">Sierra Leona</option>  
+                            <option value="SG">Singapur</option>  
+                            <option value="SY">Siria</option>  
+                            <option value="SO">Somalia</option>  
+                            <option value="LK">Sri Lanka</option>  
+                            <option value="PM">St. Pierre y Miquelon</option>  
+                            <option value="SZ">Suazilandia</option>  
+                            <option value="SD">Sudán</option>  
+                            <option value="SE">Suecia</option>  
+                            <option value="CH">Suiza</option>  
+                            <option value="SR">Surinam</option>  
+                            <option value="TH">Tailandia</option>  
+                            <option value="TW">Taiwán</option>  
+                            <option value="TZ">Tanzania</option>  
+                            <option value="TJ">Tayikistán</option>  
+                            <option value="TF">Territorios franceses del Sur</option>  
+                            <option value="TP">Timor Oriental</option>  
+                            <option value="TG">Togo</option>  
+                            <option value="TO">Tonga</option>  
+                            <option value="TT">Trinidad y Tobago</option>  
+                            <option value="TN">Túnez</option>  
+                            <option value="TM">Turkmenistán</option>  
+                            <option value="TR">Turquía</option>  
+                            <option value="TV">Tuvalu</option>  
+                            <option value="UA">Ucrania</option>  
+                            <option value="UG">Uganda</option>  
+                            <option value="UY">Uruguay</option>  
+                            <option value="UZ">Uzbekistán</option>  
+                            <option value="VU">Vanuatu</option>  
+                            <option value="VE">Venezuela</option>  
+                            <option value="VN">Vietnam</option>  
+                            <option value="YE">Yemen</option>  
+                            <option value="YU">Yugoslavia</option>  
+                            <option value="ZM">Zambia</option>  
+                            <option value="ZW">Zimbabue</option> 
+							</select>
+							
+                          </div>   
+                          
+						  </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Provincia</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <select class="form-control has-feedback-left" placeholder="Provincia" name="provincia">
+							  <option value="*">Provincia</option> 
+							  <option value="Buenos Aires">Buenos Aires</option> 
+							  <option value="Catamarca">Catamarca</option> 
+							  <option value="Chaco">Chaco</option> 
+							  <option value="Chubut">Chubut</option> 
+							  <option value="Corrientes">Corrientes</option> 
+							  <option value="Cordoba">Córdoba</option> 
+							  <option value="Distrito Federal">Distrito Federal</option> 
+							  <option value="Entre Rios">Entre Ríos</option> 
+							  <option value="Formosa">Formosa</option> 
+							  <option value="Jujuy">Jujuy</option> 
+							  <option value="La Pampa">La Pampa</option> 
+							  <option value="La Rioja">La Rioja</option> 
+							  <option value="Mendoza">Mendoza</option> 
+							  <option value="Misiones">Misiones</option> 
+							  <option value="Neuquen">Neuquen</option> 
+							  <option value="Rio Negro">Río Negro</option> 
+							  <option value="Salta">Salta</option> 
+							  <option value="San Juan">San Juan</option> 
+							  <option value="San Luis">San Luis</option> 
+							  <option value="Santa Cruz">Santa Cruz</option> 
+							  <option value="Santa Fe">Santa Fe</option> 
+							  <option value="Santiago del Estero">Santiago del Estero</option> 
+							  <option value="Tierra del Fuego">Tierra del Fuego</option> 
+							  <option value="Tucuman">Tucumán</option> 
+							  </select>
+							
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Localidad</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+								<select class="form-control has-feedback-left" placeholder="Ciudad" name="ciudad">
+								  <option value="*">Ciudad</option>
+								  <option>Avia Terai</option>
+								  <option>Charata</option>
+								  <option>El Sauzalito</option>
+								  <option>Fuerte Esperanza</option>
+								  <option>Gancedo</option>
+								  <option>General Pinedo</option>
+								  <option>General San Martin</option>
+								  <option>General Vedia</option>
+								  <option>Hermoso Campo</option>
+								  <option>Isla del Cerrito</option>
+								  <option>Juan Jose Castelli</option>
+								  <option>Las Breñas</option>
+								  <option>Machagai</option>
+								  <option>Mision Nueva Pompeya</option>
+								  <option>Pampa del Indio</option>
+								  <option>Puerto Tirol</option>
+								  <option>Resistencia</option>
+								  <option>Roque Saenz Peña</option>
+								  <option>Villa Angela</option>
+								  <option>Villa Rio Bermejito</option>
+								  </select>
+	
+							</div>
+						  </div>
+                         <!--Servicios Disponibles-->        
+                        </div>
+
+                      </div>
+                      <!-- Step 2-->                        
+                      <div id="step-2"> 
+							<h2 class="StepTitle">Selección de Servicios</h2>
+							<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="x_panel">
+								<div class="x_title">
+									  
+								<h2>Servicios <small>Disponibles</small></h2>
+								<div class="clearfix"></div>
+								<div class="col-md-9 col-sm-9 col-xs-12">
+										{% for item in servicios %}
+											<div class="checkbox">
+											<label> 
+												<input type="checkbox" class="flat" checked="checked" name="servicios[]" value="{{item.servicio.id}}"> {{item.servicio.nombre}}</label>
+											</div>
+										{% endfor %}									
+									</div>								
+								</div>
+					</div>
+					</div>
+                    </div>
+                      <!-- Step 2 Fin-->
+                      
+                      <div id="step-3">
+                        <h2 class="StepTitle">Configure los Servicios</h2>
+                        <p>Configure los servicios seleccionados:</p>
+                        <!--Habitaciones Posada-->
+						<div id="servicio2">
+							  <div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="x_panel">
+								  <div class="x_title">
+									<h2>Habitaciones<small>Disponibles</small></h2>
+									<ul class="nav navbar-right panel_toolbox">
+									  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+									  </li>
+									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+										<ul class="dropdown-menu" role="menu">
+										  <li><a href="#">Settings 1</a>
+										  </li>
+										  <li><a href="#">Settings 2</a>
+										  </li>
+										</ul>
+									  </li>
+									  <li><a class="close-link"><i class="fa fa-close"></i></a>
+									  </li>
+									</ul>
+									<div class="clearfix"></div>
+								  </div>
+
+								  <div class="x_content">
+
+									
+									<div class="table-responsive">
+									  <table class="table table-striped jambo_table bulk_action">
+										<thead>
+										  <tr class="headings">
+											<th>
+											  <input type="checkbox" id="check-all" class="flat">
+											</th>
+											<th class="column-title">Numero </th>
+											<th class="column-title">Camas Simples</th>
+											<th class="column-title">Camas Dobles </th>
+											<th class="column-title">Cant Personas Max</th>
+											<th class="column-title">Valor</th>
+											<th class="column-title no-link last"><span class="nobr">Acion</span>
+											</th>
+											<th class="bulk-actions" colspan="7">
+											  <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+											</th>
+										  </tr>
+										</thead>
+
+										<tbody>
+											{% set i = 0%}
+											{% for item in habitaciones%}
+												{% if i is divisible by (2) %} <tr class="even pointer"> {% else %} <tr class="odd pointer"> {% endif %}
+												<td class="a-center ">
+													<input type="checkbox" class="flat" name="habitaciones[]" value="{{item.id}}">
+													</td>
+													<td class=" ">{{item.id}}</td>
+													<td class=" ">{{item.CantCamasSimples}}</td>
+													<td class=" ">{{item.CantCamasDoble}}</td>
+													<td class=" ">{{ item.CantCamasSimples + item.CantCamasDoble*2 }}</td>
+													<td class=" ">{{item.ValorHabitacion}}</td>
+													<td class=" last"><a href="#">View</a>
+													</td>
+												</tr>				
+												{% set i = i+1 %}
+											{% endfor %}	
+
+										</tbody>
+									  </table>
+									</div>
+									<div class="form-group">
+								<label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha</label>
+								<div class="col-md-9 col-sm-9 col-xs-12">
+									<div class="controls">
+										<div class="input-prepend input-group">
+											<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+											<input type="text" style="width: 200px" name="reservation2" id="reservation2" class="form-control" value="03/18/2016 - 03/23/2016" />
+											
+											<input type="hidden"  name="serv_2_cant" value=4>
+										</div>
+									</div>
+								</div>
+						   </div>
+								  </div>
+								</div>
+							  </div>
+							</div>
+	 
+						<!-- Habitaciones Posada -->
+						<!-- Restaurant-->
+						<div id="servicio3" class="col-md-6 col-xs-12">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="x_panel">
+								  <div class="x_title">
+									<h2>Restaurant</h2>
+									<div class="clearfix"></div>
+								   </div>
+								   								  
+    								  <div class="">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">Cantidad Personas</label>
+											<div class="col-md-9 col-sm-9 col-xs-12">
+											<select class="form-control" name="serv_3_cant">
+												
+												{% for i in 1..servicios[2].servicio.maxPlazas %}
+													<option>{{i}}</option>
+												{% endfor%}
+											
+											</select>
+											</div>
+									  </div>
+									  <div class="x_content">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha</label>
+										<div class="col-md-9 col-sm-9 col-xs-12">
+										<div class="controls">
+											<div class="input-prepend input-group">
+												<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+												<input type="text" style="width: 200px" name="reservation3" id="reservation3" class="form-control" value="03/18/2016 - 03/23/2016" />
+											</div>
+										</div>
+									   </div>
+									 </div>
+								</div>
+							</div>
+						</div>
+						<!-- Fin Restaurant-->
+						<!-- Camping -->
+						<div id="servicio1" class="col-md-6 col-xs-12">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="x_panel">
+								  <div class="x_title">
+									<h2>Camping</h2>
+									<div class="clearfix"></div>
+								   </div>
+    								  <div class="x_content">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">Cantidad Carpas</label>
+											<div class="col-md-9 col-sm-9 col-xs-12">
+											<select class="form-control" name="serv_1_cant">
+											{% for i in 1..servicios[0].servicio.maxPlazas %}
+													<option>{{i}}</option>
+											{% endfor%}
+											</select>
+											</div>
+									  </div>
+										<div class="x_content">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha</label>
+										<div class="col-md-9 col-sm-9 col-xs-12">
+										<div class="controls">
+											<div class="input-prepend input-group">
+												<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+												<input type="text" style="width: 200px" name="reservation1" id="reservation1" class="form-control" value="03/18/2016 - 03/23/2016" />
+											</div>
+										</div>
+									   </div>
+									 </div>
+								</div>
+							</div>
+						</div>
+						<!-- Fin Camping -->
+						
+						<!-- Cabalgata -->
+						<div id="servicio4" class="col-md-6 col-xs-12">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="x_panel">
+								  <div class="x_title">
+									<h2>Cabalgata</h2>
+									<div class="clearfix"></div>
+								   </div>
+    								  <div class="x_content">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">Cantidad Personas</label>
+											<div class="col-md-9 col-sm-9 col-xs-12">
+											<select class="form-control" name="serv_4_cant">
+											{% for i in 1..servicios[3].servicio.maxPlazas %}
+													<option>{{i}}</option>
+											{% endfor%}
+											</select>
+											</div>
+									  </div>
+									  <div class="x_content">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha</label>
+										<div class="col-md-9 col-sm-9 col-xs-12">
+										<div class="controls">
+											<div class="input-prepend input-group">
+												<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+												<input type="text" style="width: 200px" name="reservation4" id="reservation4" class="form-control" value="03/18/2016 - 03/23/2016" />
+											</div>
+										</div>
+									   </div>
+									 </div>
+									 
+									 <div class="x_content">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">Horario</label>
+											<div class="col-md-9 col-sm-9 col-xs-12">
+											<select class="form-control" name="serv_4_horario">
+												{% for turno in horarios[4]%}
+													<option value="{{turno.id}}">{{turno.hora_inicio}} - {{turno.hora_fin}}</option>			
+												{% endfor%}
+				
+											</select>
+											</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Fin Cabalgata -->
+						
+						<!-- Pesca -->
+						<div id="servicio5" class="col-md-6 col-xs-12">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="x_panel">
+								  <div class="x_title">
+									<h2>Pesca</h2>
+									<div class="clearfix"></div>
+								   </div>
+    								  <div class="x_content">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">Cantidad Personas</label>
+											<div class="col-md-9 col-sm-9 col-xs-12">
+											<select class="form-control" name="serv_5_cant">
+											{% for i in 1..servicios[4].servicio.maxPlazas %}
+												<option>{{i}}</option>
+											{% endfor%}
+											</select>
+											</div>
+									  </div>
+									  <div class="x_content">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha</label>
+										<div class="col-md-9 col-sm-9 col-xs-12">
+										<div class="controls">
+											<div class="input-prepend input-group">
+												<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+												<input type="text" style="width: 200px" name="reservation5" id="reservation5" class="form-control" value="03/18/2016 - 03/23/2016" />
+											</div>
+										</div>
+									   </div>
+									 </div>
+								</div>
+							</div>
+						</div>
+						<!-- Fin Pesca -->
+						
+						<!-- Paseo Nautico -->
+						<div id="servicio6" class="col-md-6 col-xs-12">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="x_panel">
+								  <div class="x_title">
+									<h2>Paseo Nautico</h2>
+									<div class="clearfix"></div>
+								   </div>
+    								  <div class="x_content">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">Cantidad Personas</label>
+											<div class="col-md-9 col-sm-9 col-xs-12">
+											<select class="form-control" name="serv_6_cant">
+											{% for i in 1..servicios[5].servicio.maxPlazas %}
+												<option>{{i}}</option>
+											{% endfor%}
+	
+											</select>
+											</div>
+									  </div>
+									  <div class="x_content">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha</label>
+										<div class="col-md-9 col-sm-9 col-xs-12">
+										<div class="controls">
+											<div class="input-prepend input-group">
+												<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+												<input type="text" style="width: 200px" name="reservation6" id="reservation6" class="form-control" value="03/18/2016 - 03/23/2016" />
+											</div>
+										</div>
+									   </div>
+									 </div>
+									 
+									 <div class="x_content">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">Horario</label>
+											<div class="col-md-9 col-sm-9 col-xs-12">
+											<select class="form-control" name="serv_6_horario">
+												{% for turno in horarios[6]%}
+													<option value="{{turno.id}}">{{turno.hora_inicio}} - {{turno.hora_fin}}</option>			
+												{% endfor%}
+											</select>
+											</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Fin PaseoNautido -->
+						
+						<!-- Guia De Pesca-->
+						
+						<div id="servicio7" class="col-md-6 col-xs-12">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="x_panel">
+								  <div class="x_title">
+									<h2>Guia de Pesca</h2>
+									<div class="clearfix"></div>
+								   </div>
+    								  <div class="x_content">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">Cantidad Personas</label>
+											<div class="col-md-9 col-sm-9 col-xs-12">
+											<select class="form-control" name="serv_7_cant">
+											{% for i in 1..servicios[6].servicio.maxPlazas %}
+												<option>{{i}}</option>
+											{% endfor%}
+
+											</select>
+											</div>
+									  </div>
+									  <div class="x_content">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha</label>
+										<div class="col-md-9 col-sm-9 col-xs-12">
+										<div class="controls">
+											<div class="input-prepend input-group">
+												<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+												<input type="text" style="width: 200px" name="reservation7" id="reservation7" class="form-control" value="03/18/2016 - 03/23/2016" />
+											</div>
+										</div>
+									   </div>
+									 </div>	
+									 
+									 <div class="x_content">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">Horario</label>
+											<div class="col-md-9 col-sm-9 col-xs-12">
+											<select class="form-control" name="serv_7_horario">
+												{% for turno in horarios[6]%}
+													<option value="{{turno.id}}">{{turno.hora_inicio}} - {{turno.hora_fin}}</option>			
+												{% endfor%}
+											</select>
+											</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Fin Guia Pesca -->
+						
+					</div> <!-- Fin Step 3-->
+					  
+					  
+				
+                     <!-- <div id="step-4">
+                        <h2 class="StepTitle">Confirmar Reserva</h2>
+                        <p>
+                        </p>
+
+                      </div>
+                      -->
+
+                    </div>
+                    </form>
+                    <!-- End SmartWizard Content -->
+
+                    <!-- End SmartWizard Content -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+    
+      </div>
+    </div>
+
+
+	<!-- Datatables -->
+    <link href="{{ asset('assets/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
+	<!-- starrr -->
+    <link href="{{ asset('assets/vendors/starrr/dist/starrr.css') }}" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="{{ asset('assets/vendors/jquery/dist/jquery.min.js') }}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <!-- FastClick -->
+    <script src="{{ asset('assets/vendors/fastclick/lib/fastclick.js') }}"></script>
+    <!-- NProgress -->
+    <script src="{{ asset('assets/vendors/nprogress/nprogress.js') }}"></script>
+	<!-- jQuery Smart Wizard -->
+    <script src="{{ asset('assets/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js') }}"></script>
+    
+    <!-- jQuery autocomplete -->
+    <script src="/assets/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="{{ asset('assets/js/custom.min.js') }}"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="/assets/js/moment/moment.min.js"></script>
+	<script src="/assets/js/datepicker/daterangepicker.js"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="../build/js/custom.min.js"></script>
+
+	<!-- bootstrap-daterangepicker -->
+		<script>
+		$(document).ready(function() {
+			
+			var servSelect = $('input[name="servicios[]"]:checked').map(function () {
+					console.debug(this.value);
+					return this.value;
+			}).get();
+			for(i in servSelect){
+				
+			}
+			
+		});
+		
+		 </script>
+
+   <!-- /bootstrap-daterangepicker -->
+
+
+    <!-- jQuery Smart Wizard -->
+    <script>
+      $(document).ready(function() {
+        $('#wizard').smartWizard({
+			onLeaveStep: ajaxServicios,
+			onFinish: finalizarReserva,
+			labelNext:'Siguiente',
+			labelPrevious:'Anterior',
+			labelFinish:'Finalizar'
+		});
+
+		function ajaxServicios(obj, context){
+		 
+		  var servicios = $('input[name="servicios[]"]').map(function () {
+					return this.value;
+			}).get();
+			
+		  var servSelect = $('input[name="servicios[]"]:checked').map(function () {
+					return this.value;
+			}).get();
+			
+			
+			for(i in servicios){
+				$('#servicio'+servicios[i]).hide();
+			}
+			
+			for(j in servSelect){
+				$('#servicio'+servSelect[j]).show();
+				$('#reservation'+servSelect[j]).daterangepicker(null, function(start, end, label) {
+					console.log(start.toISOString(), end.toISOString(), label);
+				});
+			}
+			
+			
+		
+		  var data = {input : servicios};
+		  console.debug(servicios);
+		  $.ajax({
+			  type:"POST",
+			  url: "{{ path('ajax_serv_select') }}",
+			  data: data,
+			  dataType: 'json',
+			   success: function (data){
+					console.debug(data);
+				}
+		  });		  
+		  return true; 
+		}
+
+		function finalizarReserva(obj, context){
+			$('#form_reserva').submit();
+		}
+
+        $('#wizard_verticle').smartWizard({
+          transitionEffect: 'slide'
+        });
+
+        $('.buttonNext').addClass('btn btn-success');
+        $('.buttonPrevious').addClass('btn btn-primary');
+        $('.buttonFinish').addClass('btn btn-default');
+      });
+            
+      
+    </script>
+    <!-- /jQuery Smart Wizard -->
+    
+    <!-- jQuery autocomplete -->
+	{% block javascripts %}
+    <script>
+      $(document).ready(function() {
+		  {% autoescape false %}
+			{{ clientes }}
+		  {% endautoescape %}
+		
+        var clientesArray = $.map(clientes, function(value, key) {
+          return {
+            value: value,
+            data: key
+          };
+        });
+
+        // initialize autocomplete with custom appendTo
+        $('#autocomplete-custom-append').autocomplete({
+          lookup: clientesArray,
+          appendTo: '#autocomplete-container'
+        });
+      });
+    </script>
+	 {% endblock javascripts %}
+    <!-- /jQuery autocomplete -->
+    
+    <script>
+		function setOrigenDatosCliente(){
+			$("input[id=nuevoCliente]").val("registrado");
+			console.debug("Cliente Origen DB");
+			$('#form_nuevo_cliente').hide();
+		}
+	</script>
+    <!-- Ecotour Reservas-->
+    
+    <!-- --->
+    
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+{% block title %} {{ parent() }} {% endblock %}
+{% block sidebar %} {{ parent() }} {% endblock %}
+{% block topnav %} {{ parent() }} {% endblock %}
+{% block body %} {{ parent() }}
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Reservas Cargadas</h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  
+                </div>
+              </div>
+            </div>
+              <!-- Monto Total -->
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                   <div class="x_content">
+					   <h2>Fin de carga</h2>
+					<div class="clearfix"></div>
+                    </div>
+					<label>Total de Servicios: $1231.00</label>
+					</br>
+					<a class="btn btn-primary" href="{{ path('reservas_page', {'page': 'nueva'}) }}">Cargar Otra Resevas</a>
+					<a class="btn btn-success" href="{{ path('reservas_page', {'page': 'listado'}) }}">Listado de Reservas</a>
+					</div>
+                    
+                  </div>
+                </div>
+              </div>
+            <!--Clientes atendidos -->
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="{{ asset('assets/vendors/jquery/dist/jquery.min.js') }}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <!-- FastClick -->
+    <script src="{{ asset('assets/vendors/fastclick/lib/fastclick.js') }}"></script>
+    <!-- NProgress -->
+    <script src="{{ asset('assets/vendors/nprogress/nprogress.js') }}"></script>
+    <!-- iCheck -->
+    <script src="{{ asset('assets/vendors/iCheck/icheck.min.js') }}"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="{{ asset('assets/js/custom.min.js') }}"></script>
+
+{% endblock %}

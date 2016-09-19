@@ -1,0 +1,421 @@
+<?php
+
+/*
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
+ */
+
+namespace AppBundle\Controller;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+use AppBundle\Entity\Cliente;
+use AppBundle\Entity\Reserva;
+use AppBundle\Entity\EstadoReserva;
+use AppBundle\Entity\ReservaServicios;
+
+
+class DefaultController extends Controller
+{
+    /**
+     * Render Gentelella page.
+     *
+     * @Route("/index", name="login_page" )
+     *
+     * @param Request $request
+     * 
+     *
+     * @return Response
+     */
+    public function indexAction(Request $request)
+    {
+	 	 /*
+
+        $templateName = basename(sprintf('ecotour/%s.html.twig', $page));
+        if ($templateName !== sprintf('%s.html.twig', $page)) {
+            throw $this->createNotFoundException('Page not found');
+        }
+        if (!$this->get('templating')->exists(sprintf('ecotour/%s', $templateName))) {
+            throw $this->createNotFoundException(
+                sprintf(
+                    'Page "%s" not found',
+                    $page
+                )
+            );
+        }
+		  **/
+
+		  $conn = $this->get('database_connection');
+		  $users = $conn->fetchAll('SELECT * FROM usuario');
+
+        return $this->render(sprintf('ecotour/%s.html.twig', "login"),array('usuarios' => $users ));
+    }
+
+	 /**
+     * Render Gentelella page.
+     *
+     * @Route("/verificarLogin", name="verif_login_page" )
+     *
+     * @param Request $request
+     * 
+     *
+     * @return Response
+     */
+
+	
+
+	  public function verifacarLogin(Request $request){
+	 
+	 	  $conn = $this->get('database_connection');
+		  $users = $conn->fetchAll('SELECT * FROM usuario');
+
+		  return $this->render(sprintf('ecotour/%s.html.twig', "home"),array('usuarios' => $users ));
+	
+	  }
+
+
+	 /**
+     * Render Home page.
+     *
+     * @Route("/home", name="home_page")
+     *
+     * @param Request $request
+     * 
+     *
+     * @return Response
+     */
+    public function homeAction(Request $request)
+    {
+		  $conn = $this->get('database_connection');
+		  $users = $conn->fetchAll('SELECT * FROM usuario');
+
+        return $this->render(sprintf('ecotour/%s.html.twig', "home"),array('usuarios' => $users ));
+    }
+
+
+	 /**
+     * Render reservas
+     *
+     * @Route("/reservas/{page}", name="reservas_page", defaults={"page"="listado"})
+     *
+     * @param Request $request
+     * @param string  $page    Page name 
+     *
+     * @return Response
+     */
+    public function reservasAction(Request $request, $page= 'listado')
+    {
+
+		  $conn = $this->get('database_connection');
+		  $em = $this->getDoctrine()->getManager();
+
+		  if($page == "listado"){
+
+				/*
+					Consulta de Todas las Reservas 
+				*/
+
+		  		$reservas = $conn->fetchAll('SELECT s.nombre as servicio, c.nombre as nombre, c.apellido as apellido, c.dni as dni , c.telefono1 as telefono, r.id as numero_reserva, er.descripcion as estado, r.fecha_desde as fecha , r.cant_personas as cantidad FROM  ecoturismo.cliente c, ecoturismo.reserva r , ecoturismo.estado_reserva er , ecoturismo.servicio s, ecoturismo.reserva_servicios rs   WHERE   c.id = r.cliente_id  AND r.estado_reserva_id = er.id and rs.reserva_id = r.id and rs.servicio_id = s.id;');
+
+
+				return $this->render(sprintf('ecotour/%s.html.twig', "reservasABD"),array('reservas' => $reservas ));
+
+		  }
+		  else if($page == "nueva"){
+
+
+				/*	 Consulta de Todos los Servicios Activos				*/
+		  		$serv_reservables = $conn->fetchAll('SELECT * FROM ecoturismo.servicio s Join ecoturismo.servicios_reservables sr on s.id = sr.servicio_id;');
+
+			   /*  Listado de Clientes 			   */
+				$query = $em->createQuery('SELECT c FROM AppBundle:Cliente c ORDER BY c.apellido ASC');
+				$clientes = $query->getResult(); // array de Objetos Cliente
+					
+				
+
+				$txtcliente= "";
+				foreach($clientes as $c){	
+					$txtcliente .= $c->getId().':'.'"'. implode(" ",array($c->getApellido(), $c->getNombre())).'",'; 
+				}
+				rtrim($txtcliente,',');
+
+				$clientes = 'var countries = {'.$txtcliente.'};';
+
+				
+
+
+
+			   return $this->render(sprintf('ecotour/%s.html.twig', "añadirReservas"),array('servicios' => $serv_reservables, 'clientes' => $clientes));
+		  }
+		  else if($page = "cantidadPersonas"){
+
+		  	   $post = Request::createFromGlobals();
+			   if ($post->request->has('submit')) {
+
+
+					
+					$em = $this->getDoctrine()->getManager();
+
+					$cliente  = new Cliente();
+					$cliente->setNombre($post->get('nombres'));
+					$cliente->setApellido($post->get('apellido'));
+					$cliente->setTelefono1($post->get('telefono1'));
+					$cliente->setTelefono2($post->get('telefono2'));
+					$cliente->setCiudad($post->get('ciudad'));
+					$cliente->setProvincia($post->get('provincia'));
+					$cliente->setPais($post->get('pais'));
+					$cliente->setDni($post->get('dni'));
+
+					$em->persist($cliente);
+					$em->flush();
+
+					$reserva = new Reserva();
+					$reserva->setFechaReserva(new \DateTime(date("Y-m-d H:i:s")));
+					$reserva->setFechaDesde(new \DateTime($post->get('fecha_desde')));
+					$reserva->setFechaHasta(new \DateTime($post->get('fecha_fin')));
+					$reserva->setCliente($cliente);
+					$reserva->setCantPersonas(1);
+
+					$estadoReserva = $this->getDoctrine()->getRepository('AppBundle:EstadoReserva')->find(3);
+
+					$reserva->setEstadoReserva($estadoReserva);
+
+					$em->persist($reserva);
+
+					$em->flush();
+
+					$idsServiciosReservados = $post->get('servicios');
+				
+					/*
+						Horarios de cada Servicio, si es que tienen:
+
+					*/
+					$horariosServ = array();
+
+					foreach($idsServiciosReservados as $id){
+
+						$horarios = $conn->fetchAll('SELECT * FROM ecoturismo.horarios_servicio WHERE servicio_id ='.$id.' ORDER BY hora_inicio, hora_fin asc ;' );
+
+						if(count($horarios)>0){
+							$horariosServ[$id] = $horario;
+						}
+				 	}
+
+					/*
+						Habitaciones Disponibles para la Posada
+
+					*/
+					$habitaciones = null;
+					if(in_array(2,$idsServiciosReservados)){
+						$query = $em->createQuery('SELECT h FROM AppBundle:Habitaciones h WHERE h.estadoHabitacion = 0 ORDER BY h.valorHabitacion DESC' );
+						$habitaciones = $query->getResult(); // array de Objetos Habitacion
+						
+					}
+
+
+
+					return $this->render(sprintf('ecotour/%s.html.twig', "cantidadPersonas"), 
+						array('clienteId' => $cliente->getId(), 
+								'reservaId'=> $reserva->getId(),
+								'servicios'=>$idsServiciosReservados,
+								'horarios' =>$horariosServ,
+								'habitaciones'=> $habitaciones));
+
+		     } else {
+			  		//TODO : Manejar este error
+		    }
+		   }
+     }
+
+		
+
+	 /**
+	  * Render Informes 
+	  *
+	  * @Route("/informes/{page}", name="informes_page", defaults={"page" = "clientesAtendidos"})
+     *
+     * @param Request $request
+     * @param string  $page    Page name 
+     *
+     * @return Response
+	  */
+
+	  public function informesAction(Request $request, $page = 'clientesAtendidos')
+	  {
+
+	  		$conn = $this->get('database_connection');
+			$em = $this->getDoctrine()->getManager();
+
+	  		if($page == "clientesAtendidos"){
+			
+				$serv_reservables = $conn->fetchAll('SELECT * FROM ecoturismo.servicio s Join ecoturismo.servicios_reservables sr on s.id = sr.servicio_id;');		
+				/**/
+				/*  Listado de Consumos del día 			   */
+
+				$query = $em->createQuery('SELECT co FROM AppBundle:ConsumosCliente co WHERE co.fecha ='.date("Y-m-d").' AND co.servicio = :servicio  ORDER BY co.fecha  ASC');
+
+				$consumos = array();  // Arreglo diccionario donde guardar los consumos de cada servicio.
+				foreach($serv_reservables as $servicio){
+					$query->setParameter('servicio', $servicio['id']);
+					$servNombre = $servicio['nombre'];
+					$consumos[$servNombre]= $query->getResult(); // array de Objetos ConsumosCliente
+				}
+				
+				$montoquery = $conn->fetchAll('SELECT SUM(co.monto_abonado) as sumaTotal FROM consumos_cliente co WHERE co.fecha ='.date("Y-m-d").';');
+				$montoTotal = $montoquery[0]['sumaTotal'];
+	
+				return $this->render(sprintf('ecotour/%s.html.twig',"informesClientesAtendidos"),array('consumos'=>$consumos,'montoTotal'=>$montoTotal));
+		
+			}
+			else if($page == "reservasProgramadas"){
+				
+				$queryReserv = $em->createQuery('SELECT re FROM AppBundle:Reserva re WHERE re.fechaDesde =\''.date("Y-m-d").'\' AND re.estadoReserva = :estado ORDER BY re.fechaDesde ASC');
+
+				$estadosValidos = array(1,3); //CONFIRAMADA y ESPERANDO_CONFIRMACION
+
+				$reservasProgramadas = array();
+
+				$estadosRepo = $em->getRepository('AppBundle:EstadoReserva');
+
+				foreach($estadosValidos as $idEstado){
+					
+					$estadoReserva = $estadosRepo->find($idEstado);
+
+					$queryReserv->setParameter('estado',$estadoReserva->getId());
+
+					$reservasProgramadas[$estadoReserva->getDescripcion()] =  $queryReserv->getResult();
+				}
+
+				return $this->render(sprintf('ecotour/%s.html.twig',"informesReservasProgramadas"),array('reservasProg' => $reservasProgramadas["ESPERANDO_CONFIRMACION"]));
+			}
+			elseif($page == "listaEspera"){
+
+				$estadosRepo = $em->getRepository('AppBundle:EstadoReserva');
+				$estadoReserva = $estadosRepo->find(2); //LISTA_ESPERA
+				$queryReserv = $em->createQuery('SELECT re FROM AppBundle:Reserva re WHERE re.estadoReserva = :estado ORDER BY re.fechaDesde ASC');
+				$queryReserv->setParameter('estado',$estadoReserva->getId());
+				$reservasEspera =  $queryReserv->getResult();
+
+				return $this->render(sprintf('ecotour/%s.html.twig',"informesListaEspera"),array('reservasEspera' => $reservasEspera));	
+			}
+	  
+	  }
+
+
+	/**
+	  * Render Informes 
+	  *
+	  * @Route("/clientes/{page}", name="clientes_page", defaults={"page" = "listado"})
+     *
+     * @param Request $request
+     * @param string  $page    Page name 
+     *
+     * @return Response
+	  */
+
+	  public function clientesAction(Request $request, $page = 'listado'){
+	  		if($page == "listado"){
+				
+				/*  Listado de Clientes 			   */
+				$query = $em->createQuery('SELECT c FROM AppBundle:Cliente c ORDER BY c.apellido ASC');
+				$clientes = $query->getResult(); // array de Objetos Cliente	
+
+				return $this->render(sprintf('ecotour/%s',"clientesListado.html.twig",array('clientes' => $clientes)));	
+
+			}
+	  }
+
+	/**
+	  * Render Informes 
+	  *
+	  * @Route("/servicios/{page}", name="servicios_page", defaults={"page" = "listado"})
+     *
+     * @param Request $request
+     * @param string  $page    Page name 
+     *
+     * @return Response
+	  */
+
+	  public function serviciosAction(Request $request, $page = 'listado'){
+		  	//Listar servicios y clasificarlos por tipos...
+			$em = $this->getDoctrine()->getManager();
+
+			if($page== "listado"){
+
+				/*  Listado de Servicios	   */
+				$query = $em->createQuery('SELECT s FROM AppBundle:Servicio s ORDER BY s.nombre ASC');
+				$servicios = $query->getResult(); // array de Objetos Servicio
+
+				$query = $em->createQuery('SELECT sr FROM AppBundle:ServiciosReservables sr ORDER BY sr.servicio ASC');
+				$servReservables = $query->getResult(); // array de Objetos Cliente	
+
+				return $this->render(sprintf('ecotour/%s.html.twig',"serviciosListado"),array('servicios' => $servicios,'serviciosReservables'=>$servReservables));	
+
+			}
+			elseif($page == "porFecha"){
+				
+				if( ($request->get('fechaInicio') !== null)  || ($request->get('fechaFin') !== null) ){
+					
+					$fechaInicio = date(new \DateTime(date("Y-m-d H:i:s")));
+					$fechaFin = $fechaInicio;
+
+				}
+				else{
+
+					$fechaInicio = date(new \DateTime($request->get('fechaInicio')));
+					$fechaFin = date(new \DateTime($request->get('fechaFin')));
+
+				}
+	
+				/* Total de servicios realizados en un perídos de tiempo determinado*/
+				$query = $em->createQuery('SELECT c FROM AppBundle:ConsumoCliente c WHERE c.fecha >= :fechaInicio AND fecha <= :fechaFin  ORDER BY c.fecha ASC'); // array de Objetos Servicio
+				$query->setParameter('fechaInicio', $fechaInicio);
+				$query->setParameter('fechaFin', $fechaFin);
+
+				return $this->render(sprintf('ecotour/%s',"serviciosPorFecha.html.twig",array('clientes' => $clientes)));	
+		
+			}
+	  }
+
+
+
+    /**
+     * Render admin page.
+     *
+     * Route("admin/{page}", name="admin_page", defaults={"page": "plain"})
+     *
+     * @param Request $request Request
+     * @param string  $page    Page name
+     *
+     * @return Response
+     */
+    public function adminAction(Request $request, $page = 'plain')
+    {
+        $templateName = basename(sprintf('admin/pages/%s.html.twig', $page));
+        if ($templateName !== sprintf('%s.html.twig', $page)) {
+            throw $this->createNotFoundException('Page not found');
+        }
+        if (!$this->get('templating')->exists(sprintf('admin/pages/%s', $templateName))) {
+            $templateName = 'plain.html.twig';
+        }
+
+        return $this->render(sprintf('admin/pages/%s', $templateName));
+    }
+
+    /**
+     * Redirect to admin homepage which is currently index (plain page).
+     *
+     * Route("/", name="homepage")
+     *
+     * @param Request $request Request
+     *
+     * @return Request
+     */
+    public function homePageAction(Request $request)
+    {
+        return $this->redirectToRoute('ecotour_page', ['page' => 'index']);
+    }
+}
