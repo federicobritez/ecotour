@@ -1,4 +1,3 @@
-
 <?php
 /*
  * DefaultController.php
@@ -23,10 +22,8 @@
  *
  */
 
-
-
-
 namespace AppBundle\Controller;
+
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -140,7 +137,14 @@ class DefaultController extends Controller
 
   		$query = $em->createQuery('SELECT r FROM AppBundle:Reserva r ORDER BY r.fechaReserva DESC');
   		$reservas = $query->getResult();
-		return $this->render(sprintf('ecotour/%s.html.twig', "reservasListado"),array('reservas' => $reservas ));
+
+  		$query = $em->createQuery('SELECT er FROM AppBundle:EstadoReserva er');
+  		$estado_reserva = $query->getResult();
+
+
+		return $this->render(sprintf('ecotour/%s.html.twig', "reservasListado"),
+							array('reservas' => $reservas,
+								  'estadoReserva' => $estado_reserva ));
 
   }
   else if($page == "nueva"){
@@ -187,7 +191,11 @@ class DefaultController extends Controller
 			}
 		}
 
-		return $this->render(sprintf('ecotour/%s.html.twig', "reservasWizard"),array('servicios' => $servReservables, 'clientes' => $clientes, 'habitaciones' => $habitaciones, 'horarios'=>$horariosServ));
+		return $this->render(sprintf('ecotour/%s.html.twig', "reservasWizard"),
+									array('servicios' => $servReservables, 
+											'clientes' => $clientes, 
+											'habitaciones' => $habitaciones, 
+											'horarios'=>$horariosServ));
 		
 	}
 	else if( $page == "finalizar"){
@@ -377,7 +385,9 @@ class DefaultController extends Controller
 				$reservasProgramadas[$estadoReserva->getDescripcion()] =  $queryReserv->getResult();
 			}
 
-			return $this->render(sprintf('ecotour/%s.html.twig',"informesReservasProgramadas"),array('reservasProg' => $reservasProgramadas["ESPERANDO_CONFIRMACION"]));
+			return $this->render(sprintf('ecotour/%s.html.twig',"informesReservasProgramadas"),
+										array('reservasProg' => $reservasProgramadas["ESPERANDO_CONFIRMACION"]));
+
 		}
 		elseif($page == "listaEspera"){
 
@@ -390,6 +400,8 @@ class DefaultController extends Controller
 
 			return $this->render(sprintf('ecotour/%s.html.twig',"informesListaEspera"),array('reservas' => $reservasEspera));
 		}
+		
+		
 
   }
 
@@ -427,7 +439,9 @@ class DefaultController extends Controller
 	/* Formas de Pago de Cada Servicio*/
 		$formasPago = $em->getRepository('AppBundle:FormasDePago');
 
-		return $this->render(sprintf('ecotour/%s.html.twig',"clientesListado"),array('clientes' => $clientes ,'reservas' => $reservas));
+		return $this->render(sprintf('ecotour/%s.html.twig',"clientesListado"),
+									array('clientes' => $clientes ,
+											'reservas' => $reservas));
 
 	}
 	
@@ -453,7 +467,9 @@ class DefaultController extends Controller
 		$em->flush();
 	}
 	else if($page== "porFecha"){
-		return $this->render(sprintf('ecotour/%s',"clientesListado2.html.twig"),array('clientes' => $clientes,'reservas'=>$reservas));
+		return $this->render(sprintf('ecotour/%s',"clientesListado2.html.twig"),
+									array('clientes' => $clientes,
+											'reservas'=>$reservas));
 
 	}
 
@@ -525,7 +541,9 @@ class DefaultController extends Controller
 		$query = $em->createQuery('SELECT sr FROM AppBundle:ServiciosReservables sr');
 		$servReservables = $query->getResult();
 
-		return $this->render(sprintf('ecotour/%s.html.twig',"serviciosListado"),array('servicios' => $servicios,'serviciosReservables'=>$servReservables));
+		return $this->render(sprintf('ecotour/%s.html.twig',"serviciosListado"),
+									array('servicios' => $servicios,
+											'serviciosReservables'=>$servReservables));
 
 	}
 	elseif($page == "porFecha"){
@@ -548,6 +566,24 @@ class DefaultController extends Controller
 
 	}
  }
+ 
+ 
+ /**
+  * Render Debug page
+  *
+  * @Route("/debug/{page}", name="debug", defaults={"page" = "debug"})
+  *
+  * @param Request $request
+  * @param string  $page    Page name
+  *
+  * @return Response
+  */
+	public function debugAction(Request $request, $page = 'debug'){
+		
+		return $this->render(sprintf('ecotour/%s.html.twig',"testValidator"));
+		
+	}
+
 
 /**
  -------------------------------------------------------------------------------------------
@@ -574,6 +610,48 @@ class DefaultController extends Controller
 
 
 	   return new JsonResponse(array('data' => $servicios));
+  }
+
+
+  /**
+  * Render Ajax Servivios page
+  *
+  * @Route("/ajaxServicops/estadoReserva", name="ajax_cambio_estado_reserva")
+  *
+  * @param Request $request
+  *
+  * @return Response
+  */
+
+  public function ajaxEstadoReservaAction(Request $request){
+
+  		$em = $this->getDoctrine()->getManager();			
+
+		$id_estado = $request->get("id_estado");
+		$id_reserva = $request->get("id_reserva");
+		$respuesta="";		
+		/*Obtengo la reserva*/
+		$reserva = $this->getDoctrine()->getRepository('AppBundle:Reserva')->find($id_reserva);
+
+
+
+		if($reserva == null){
+			$respuesta= "ERROR";
+		}
+		else{
+
+			$estadoReserva = $this->getDoctrine()->getRepository('AppBundle:EstadoReserva')->find($id_estado);
+			$reserva->setEstadoReserva($estadoReserva);
+			$em->persist($reserva);
+			$em->flush();
+			$respuesta= "OK";
+		}
+
+		//return $this->render(sprintf('ecotour/%s.html.twig', "reservasWizard"),array("test"=>$request));
+	  //you can return result as JSON
+
+
+	   return new JsonResponse(array('mje' => $respuesta));
   }
 
 

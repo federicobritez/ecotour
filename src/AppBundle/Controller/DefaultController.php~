@@ -1,5 +1,8 @@
 
 <?php
+
+namespace AppBundle\Controller;
+
 /*
  * DefaultController.php
  *
@@ -22,11 +25,6 @@
  *
  *
  */
-
-
-
-
-namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -488,10 +486,10 @@ class DefaultController extends Controller
 		
 	}
 	elseif($page == "comprar"){
-
+		
 		$idCliente = $request->query->get('id');
-		$cliente =  $em->getRepository('AppBundle:Cliente')->find($idCliente);
-		$mercaderia = 	$em->getRepository('AppBundle:Mercaderia')->
+		$cliente   = $em->getRepository('AppBundle:Cliente')->find($idCliente);
+		$mercaderia= $em->getRepository('AppBundle:Mercaderia')->
 									findBy(array(), array('nombre' => 'ASC'));
 
 		return $this->render(sprintf('ecotour/%s.html.twig',"comprar"),
@@ -501,7 +499,7 @@ class DefaultController extends Controller
 		}
   }
 
-/**
+ /**
   * Render Servicios page
   *
   * @Route("/servicios/{page}", name="servicios_page", defaults={"page" = "listado"})
@@ -512,53 +510,42 @@ class DefaultController extends Controller
   * @return Response
   */
 
-  public function serviciosAction(Request $request, $page = 'listado'){
-	  	//Listar servicios y clasificarlos por tipos...
-		$em = $this->getDoctrine()->getManager();
+ public function serviciosAction(Request $request, $page = 'listado'){
+ 	//Listar servicios y clasificarlos por tipos...
+	$em = $this->getDoctrine()->getManager();
 
-		if($page== "listado"){
+	if($page== "listado"){
+		/*  Listado de Servicios No Reservables	   */
+		$query = $em->createQuery('SELECT s FROM AppBundle:Servicio s WHERE s.id NOT IN (SELECT sr FROM AppBundle:ServiciosReservables sr ) ORDER BY s.nombre ASC');
+		$servicios = $query->getResult(); // array de Objetos Servicio
 
-			/*  Listado de Servicios No Reservables	   */
-			$query = $em->createQuery('SELECT s FROM AppBundle:Servicio s WHERE s.id NOT IN (SELECT sr FROM AppBundle:ServiciosReservables sr ) ORDER BY s.nombre ASC');
-			$servicios = $query->getResult(); // array de Objetos Servicio
+		/* Servicios Reservables */
+		$query = $em->createQuery('SELECT sr FROM AppBundle:ServiciosReservables sr');
+		$servReservables = $query->getResult();
 
-			/* Servicios Reservables */
-			$query = $em->createQuery('SELECT sr FROM AppBundle:ServiciosReservables sr');
-			$servReservables = $query->getResult();
+		return $this->render(sprintf('ecotour/%s.html.twig',"serviciosListado"),array('servicios' => $servicios,'serviciosReservables'=>$servReservables));
 
-			return $this->render(sprintf('ecotour/%s.html.twig',"serviciosListado"),array('servicios' => $servicios,'serviciosReservables'=>$servReservables));
-
+	}
+	elseif($page == "porFecha"){
+		
+		if( ($request->get('fechaInicio') !== null)  || ($request->get('fechaFin') !== null) ){
+			$fechaInicio = date(new \DateTime(date("Y-m-d H:i:s")));
+			$fechaFin = $fechaInicio;
+		}else{
+			$fechaInicio = date(new \DateTime($request->get('fechaInicio')));
+			$fechaFin = date(new \DateTime($request->get('fechaFin')));
 		}
-		elseif($page == "porFecha"){
+		
+	/* Total de servicios realizados en un perídos de tiempo determinado*/
+		$query = $em->createQuery('SELECT c FROM AppBundle:ConsumoCliente c WHERE c.fecha >= :fechaInicio AND fecha <= :fechaFin  ORDER BY c.fecha ASC'); // array de Objetos Servicio
+		$query->setParameter('fechaInicio', $fechaInicio);
+		$query->setParameter('fechaFin', $fechaFin);
+		$consumosCliente = $query->getResult();
+		
+		return $this->render(sprintf('ecotour/%s.html.twig',"serviciosPorFecha.html.twig"),array('clientes' => $clientes));
 
-			if( ($request->get('fechaInicio') !== null)  || ($request->get('fechaFin') !== null) ){
-
-				$fechaInicio = date(new \DateTime(date("Y-m-d H:i:s")));
-				$fechaFin = $fechaInicio;
-
-			}
-			else{
-
-				$fechaInicio = date(new \DateTime($request->get('fechaInicio')));
-				$fechaFin = date(new \DateTime($request->get('fechaFin')));
-
-			}
-
-			/* Total de servicios realizados en un perídos de tiempo determinado*/
-			$query = $em->createQuery('SELECT c FROM AppBundle:ConsumoCliente c WHERE c.fecha >= :fechaInicio AND fecha <= :fechaFin  ORDER BY c.fecha ASC'); // array de Objetos Servicio
-			$query->setParameter('fechaInicio', $fechaInicio);
-			$query->setParameter('fechaFin', $fechaFin);
-
-			$consumosCliente = $query->getResult();
-
-			return $this->render(sprintf('ecotour/%s.html.twig',"serviciosPorFecha.html.twig"),array('clientes' => $clientes));
-
-		}
-  }
-
-
-
-
+	}
+ }
 
 /**
  -------------------------------------------------------------------------------------------
@@ -586,11 +573,6 @@ class DefaultController extends Controller
 
 	   return new JsonResponse(array('data' => $servicios));
   }
-
-
-
-
-
 
 
  /**

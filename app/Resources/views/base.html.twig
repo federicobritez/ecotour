@@ -20,6 +20,10 @@
     <link href="{{ asset('assets/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}" rel="stylesheet">
     <!-- jVectorMap -->
     <link href="{{ asset('assets/css/maps/jquery-jvectormap-2.0.3.css') }}" rel="stylesheet"/>
+    <!-- PNotify -->
+    <link href="{{ asset('assets/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet">
@@ -57,12 +61,16 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
+
                   <li><a><i class="fa fa-edit"></i> Reservas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
+
                       <li><a href="{{ path('reservas_page', {'page': 'nueva'}) }}">Añadir reservas</a></li>
                       <li><a href="{{ path('reservas_page', {'page': 'listado'}) }}">Lista Reservas</a></li>
+
                     </ul>
                   </li>
+
                   <li><a><i class="fa fa-home"></i> Informes <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                       <li><a href="{{ path('informes_page', {'page': 'clientesAtendidos'}) }}">Clientes atendidos</a></li>
@@ -70,9 +78,16 @@
                       <li><a href="{{ path('informes_page', {'page': 'listaEspera'}) }}">Lista de espera</a></li>
                     </ul>
                   </li>
+                  
                   <li><a href="{{ path('clientes_page', {'page': 'listado'}) }}"><i class="fa fa-users"></i>Clientes</a>
                   </li>
-                  <li><a href="{{ path('servicios_page', {'page': 'listado'}) }}"><i class="fa fa-star-half-o"></i>Servicios</a>
+
+                  <li><a><i class="fa fa-star-half-o"></i>Servicios <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ path('servicios_page', {'page': 'listado'}) }}">Listar Servicios</a></li>
+                      <li><a href="{{ path('servicios_page', {'page': 'configuracion'}) }}">Configurar Servicios</a></li>
+                    </ul>
+
                   </li>
                 </ul>
               </div>
@@ -111,6 +126,6 @@
         <!-- /top navigation -->
         </div>
         {% endblock %}
-        </div>
+       
     </body>
-</html  
+</html>  
