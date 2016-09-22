@@ -640,10 +640,10 @@
 
       //Validaciones de Servicios seleccionados
       var servSelect = $('input[name="servicios[]"]:checked').map(function () { return this.value; }).get();
-
+      
 
       //Para la posada necesita que haya habitaciones marcadas
-      if(servSelect.indexOf("2")){
+      if(servSelect.indexOf("2")>=0){
 
         var habitSelect = $('input[name="habitaciones[]:checked"]').map(function () { return this.value; }).get();
         console.debug(habitSelect);
@@ -708,12 +708,12 @@
           var servicios = $('input[name="servicios[]"]').map(function () {
               return this.value;
           }).get();
-          servicios.sort();
+          
           
           var servSelect = $('input[name="servicios[]"]:checked').map(function () {
               return this.value;
           }).get();
-          servSelect.sort();
+          
 
           // Muestra solo los parametros de servicios activados
           for(i in servicios){
@@ -723,7 +723,7 @@
           // bootstrap-daterangepicker
           
           for(j in servSelect){
-            $('#servicio'+servicios[j]).show();
+            $('#servicio'+servSelect[j]).show();
             $('#reservation'+servSelect[j]).daterangepicker(null, function(start, end, label) {
               console.log(start.toISOString(), end.toISOString(), label);
             });
@@ -773,6 +773,12 @@
     function setOrigenDatosCliente(){
       $("input[id=nuevoCliente]").val("registrado");
       console.debug("Cliente Origen DB");
+      // No requiero de los datos del cliente
+      var $inputs = $("form#form_reserva :input[required]");
+      $inputs.each(function(){
+          $(this).attr('required', false);
+      });
+      //Oculta formulario nuevo cliente
       $('#nuevo_cliente_div').hide();
     }
   </script>

@@ -541,9 +541,18 @@ class DefaultController extends Controller
 		$query = $em->createQuery('SELECT sr FROM AppBundle:ServiciosReservables sr');
 		$servReservables = $query->getResult();
 
+
+		$total_recaudado=10000;
+		$total_credito=4000;
+		$total_debito=2000;
+		$total_efectivo=4000;
+
+		$totales = array("recaudado"=> $total_recaudado, "credito"=>$total_credito, "efectivo"=>$total_efectivo,"debito"=>$total_debito);
+
 		return $this->render(sprintf('ecotour/%s.html.twig',"serviciosListado"),
 									array('servicios' => $servicios,
-											'serviciosReservables'=>$servReservables));
+										  'serviciosReservables'=>$servReservables,
+										  'totales'=>$totales));
 
 	}
 	elseif($page == "porFecha"){
@@ -562,7 +571,12 @@ class DefaultController extends Controller
 		$query->setParameter('fechaFin', $fechaFin);
 		$consumosCliente = $query->getResult();
 		
-		return $this->render(sprintf('ecotour/%s.html.twig',"serviciosPorFecha.html.twig"),array('clientes' => $clientes));
+		return $this->render(sprintf('ecotour/%s.html.twig',"serviciosPorFecha"),array('clientes' => $clientes));
+
+	}
+	elseif($page == "configuracion"){
+
+		return $this->render(sprintf('ecotour/%s.html.twig',"serviciosConfiguracion"));		
 
 	}
  }

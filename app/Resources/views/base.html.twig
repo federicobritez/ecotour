@@ -94,6 +94,22 @@
             {% endblock %}
             </div>
             <!-- /sidebar menu -->
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+              <a data-toggle="tooltip" data-placement="top" title="Configuraciones">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Ayuda">
+                <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Acerca de la App ">
+                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Salir">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </a>
+            </div>
+            <!-- /menu footer buttons -->
 
            
           </div>
@@ -126,6 +142,15 @@
         <!-- /top navigation -->
         </div>
         {% endblock %}
-       
+
+
+       {% block foooter%}
+        <footer>
+          <div class="pull-right">
+            Software Diseñado por <a href="https://ecorp-core.com.ar"> ECOPR </a>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+       {% endblock%}
     </body>
 </html>  
