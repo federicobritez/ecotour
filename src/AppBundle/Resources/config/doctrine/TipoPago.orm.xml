@@ -9,5 +9,15 @@
         <option name="fixed"/>
       </options>
     </field>
+    <field name="interes" type="string" column="interes" length="45" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="cantCuotas" type="string" column="cant_cuotas" length="45" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
   </entity>
 </doctrine-mapping>

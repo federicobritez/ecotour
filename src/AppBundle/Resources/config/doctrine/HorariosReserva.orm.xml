@@ -3,19 +3,24 @@
   <entity name="AppBundle\Entity\HorariosReserva" table="horarios_reserva">
     <indexes>
       <index name="fk_horarios_reserva_horarios_servicio1_idx" columns="horarios_servicio_id"/>
-      <index name="fk_horarios_reserva_reserva1_idx" columns="reserva_id"/>
+      <index name="fk_horarios_reserva_reserva1_idx" columns="reserva_id1"/>
     </indexes>
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
+    <field name="reservaId" type="integer" column="reserva_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
     <many-to-one field="horariosServicio" target-entity="HorariosServicio" fetch="LAZY">
       <join-columns>
         <join-column name="horarios_servicio_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
-    <many-to-one field="reserva" target-entity="Reserva" fetch="LAZY">
+    <many-to-one field="reserva1" target-entity="Reserva" fetch="LAZY">
       <join-columns>
-        <join-column name="reserva_id" referenced-column-name="id"/>
+        <join-column name="reserva_id1" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
   </entity>

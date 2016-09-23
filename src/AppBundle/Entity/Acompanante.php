@@ -3,9 +3,9 @@
 namespace AppBundle\Entity;
 
 /**
- * Acompañante
+ * Acompanante
  */
-class Acompañante
+class Acompanante
 {
     /**
      * @var integer
@@ -18,9 +18,9 @@ class Acompañante
     private $id;
 
     /**
-     * @var \AppBundle\Entity\GrupoAcompañante
+     * @var \AppBundle\Entity\GrupoAcompanante
      */
-    private $grupoAcompañante;
+    private $grupoAcompanante;
 
 
     /**
@@ -28,7 +28,7 @@ class Acompañante
      *
      * @param integer $clienteId
      *
-     * @return Acompañante
+     * @return Acompanante
      */
     public function setClienteId($clienteId)
     {
@@ -58,27 +58,27 @@ class Acompañante
     }
 
     /**
-     * Set grupoAcompañante
+     * Set grupoAcompanante
      *
-     * @param \AppBundle\Entity\GrupoAcompañante $grupoAcompañante
+     * @param \AppBundle\Entity\GrupoAcompanante $grupoAcompanante
      *
-     * @return Acompañante
+     * @return Acompanante
      */
-    public function setGrupoAcompañante(\AppBundle\Entity\GrupoAcompañante $grupoAcompañante = null)
+    public function setGrupoAcompanante(\AppBundle\Entity\GrupoAcompanante $grupoAcompanante = null)
     {
-        $this->grupoAcompañante = $grupoAcompañante;
+        $this->grupoAcompanante = $grupoAcompanante;
 
         return $this;
     }
 
     /**
-     * Get grupoAcompañante
+     * Get grupoAcompanante
      *
-     * @return \AppBundle\Entity\GrupoAcompañante
+     * @return \AppBundle\Entity\GrupoAcompanante
      */
-    public function getGrupoAcompañante()
+    public function getGrupoAcompanante()
     {
-        return $this->grupoAcompañante;
+        return $this->grupoAcompanante;
     }
 }
 

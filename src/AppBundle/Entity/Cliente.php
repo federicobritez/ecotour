@@ -58,9 +58,9 @@ class Cliente
     private $id;
 
     /**
-     * @var \AppBundle\Entity\GrupoAcompañante
+     * @var \AppBundle\Entity\GrupoAcompanante
      */
-    private $grupoAcompañantegrupoAcompañante;
+    private $grupoAcompanante;
 
 
     /**
@@ -290,27 +290,27 @@ class Cliente
     }
 
     /**
-     * Set grupoAcompañantegrupoAcompañante
+     * Set grupoAcompanante
      *
-     * @param \AppBundle\Entity\GrupoAcompañante $grupoAcompañantegrupoAcompañante
+     * @param \AppBundle\Entity\GrupoAcompanante $grupoAcompanante
      *
      * @return Cliente
      */
-    public function setGrupoAcompañantegrupoAcompañante(\AppBundle\Entity\GrupoAcompañante $grupoAcompañantegrupoAcompañante = null)
+    public function setGrupoAcompanante(\AppBundle\Entity\GrupoAcompanante $grupoAcompanante = null)
     {
-        $this->grupoAcompañantegrupoAcompañante = $grupoAcompañantegrupoAcompañante;
+        $this->grupoAcompanante = $grupoAcompanante;
 
         return $this;
     }
 
     /**
-     * Get grupoAcompañantegrupoAcompañante
+     * Get grupoAcompanante
      *
-     * @return \AppBundle\Entity\GrupoAcompañante
+     * @return \AppBundle\Entity\GrupoAcompanante
      */
-    public function getGrupoAcompañantegrupoAcompañante()
+    public function getGrupoAcompanante()
     {
-        return $this->grupoAcompañantegrupoAcompañante;
+        return $this->grupoAcompanante;
     }
 }
 

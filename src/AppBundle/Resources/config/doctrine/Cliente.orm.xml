@@ -2,7 +2,7 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
   <entity name="AppBundle\Entity\Cliente" table="cliente">
     <indexes>
-      <index name="fk_cliente_grupo_acompañante1_idx" columns="grupo_acompañante_idgrupo_acompañante"/>
+      <index name="fk_cliente_grupo_acompanante1_idx" columns="grupo_acompanante_id"/>
     </indexes>
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
@@ -52,9 +52,9 @@
         <option name="fixed"/>
       </options>
     </field>
-    <many-to-one field="grupoAcompañantegrupoAcompañante" target-entity="GrupoAcompañante" fetch="LAZY">
+    <many-to-one field="grupoAcompanante" target-entity="GrupoAcompanante" fetch="LAZY">
       <join-columns>
-        <join-column name="grupo_acompañante_idgrupo_acompañante" referenced-column-name="id"/>
+        <join-column name="grupo_acompanante_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
   </entity>

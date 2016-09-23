@@ -10,6 +10,11 @@ class HorariosReserva
     /**
      * @var integer
      */
+    private $reservaId;
+
+    /**
+     * @var integer
+     */
     private $id;
 
     /**
@@ -20,8 +25,32 @@ class HorariosReserva
     /**
      * @var \AppBundle\Entity\Reserva
      */
-    private $reserva;
+    private $reserva1;
 
+
+    /**
+     * Set reservaId
+     *
+     * @param integer $reservaId
+     *
+     * @return HorariosReserva
+     */
+    public function setReservaId($reservaId)
+    {
+        $this->reservaId = $reservaId;
+
+        return $this;
+    }
+
+    /**
+     * Get reservaId
+     *
+     * @return integer
+     */
+    public function getReservaId()
+    {
+        return $this->reservaId;
+    }
 
     /**
      * Get id
@@ -58,27 +87,27 @@ class HorariosReserva
     }
 
     /**
-     * Set reserva
+     * Set reserva1
      *
-     * @param \AppBundle\Entity\Reserva $reserva
+     * @param \AppBundle\Entity\Reserva $reserva1
      *
      * @return HorariosReserva
      */
-    public function setReserva(\AppBundle\Entity\Reserva $reserva = null)
+    public function setReserva1(\AppBundle\Entity\Reserva $reserva1 = null)
     {
-        $this->reserva = $reserva;
+        $this->reserva1 = $reserva1;
 
         return $this;
     }
 
     /**
-     * Get reserva
+     * Get reserva1
      *
      * @return \AppBundle\Entity\Reserva
      */
-    public function getReserva()
+    public function getReserva1()
     {
-        return $this->reserva;
+        return $this->reserva1;
     }
 }
 

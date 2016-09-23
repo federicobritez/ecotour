@@ -3,9 +3,9 @@
 namespace AppBundle\Entity;
 
 /**
- * GrupoAcompañante
+ * GrupoAcompanante
  */
-class GrupoAcompañante
+class GrupoAcompanante
 {
     /**
      * @var integer
@@ -28,7 +28,7 @@ class GrupoAcompañante
      *
      * @param integer $idclienteResponsable
      *
-     * @return GrupoAcompañante
+     * @return GrupoAcompanante
      */
     public function setIdclienteResponsable($idclienteResponsable)
     {
@@ -52,7 +52,7 @@ class GrupoAcompañante
      *
      * @param string $alias
      *
-     * @return GrupoAcompañante
+     * @return GrupoAcompanante
      */
     public function setAlias($alias)
     {
