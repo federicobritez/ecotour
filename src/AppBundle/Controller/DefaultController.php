@@ -605,9 +605,9 @@ class DefaultController extends Controller
 */
 
 /**
-  * Render Ajax Servivios page
+  * Ajax Servicios page
   *
-  * @Route("/ajaxServicops/servSelect", name="ajax_serv_select")
+  * @Route("/ajaxServicios/servSelect", name="ajax_serv_select")
   *
   * @param Request $request
   *
@@ -628,9 +628,9 @@ class DefaultController extends Controller
 
 
   /**
-  * Render Ajax Servivios page
+  * Ajax Reservas
   *
-  * @Route("/ajaxServicops/estadoReserva", name="ajax_cambio_estado_reserva")
+  * @Route("/ajaxServicios/estadoReserva", name="ajax_cambio_estado_reserva")
   *
   * @param Request $request
   *
@@ -648,7 +648,6 @@ class DefaultController extends Controller
 		$reserva = $this->getDoctrine()->getRepository('AppBundle:Reserva')->find($id_reserva);
 
 
-
 		if($reserva == null){
 			$respuesta= "ERROR";
 		}
@@ -656,14 +655,41 @@ class DefaultController extends Controller
 
 			$estadoReserva = $this->getDoctrine()->getRepository('AppBundle:EstadoReserva')->find($id_estado);
 			$reserva->setEstadoReserva($estadoReserva);
-			$em->persist($reserva);
-			$em->flush();
+			$em->persist($reserva);	$em->flush();
 			$respuesta= "OK";
 		}
 
-		//return $this->render(sprintf('ecotour/%s.html.twig', "reservasWizard"),array("test"=>$request));
-	  //you can return result as JSON
 
+	   return new JsonResponse(array('mje' => $respuesta));
+  }
+
+
+  /**
+  * Ajax Reservas
+  *
+  * @Route("/ajaxServicios/eliminarReserva", name="ajax_eliminar_reserva")
+  *
+  * @param Request $request
+  *
+  * @return Response
+  */
+
+  public function ajaxEliminarReservaAction(Request $request){
+
+  		$em = $this->getDoctrine()->getManager();			
+		$id_reserva = $request->get("id_reserva");
+		$respuesta="";		
+		/*Obtengo la reserva*/
+		$reserva = $this->getDoctrine()->getRepository('AppBundle:Reserva')->find($id_reserva);
+
+		if($reserva == null){
+			$respuesta= "ERROR";
+		}
+		else{
+
+			$em->remove($reserva); $em->flush();
+			$respuesta= "OK";
+		}
 
 	   return new JsonResponse(array('mje' => $respuesta));
   }

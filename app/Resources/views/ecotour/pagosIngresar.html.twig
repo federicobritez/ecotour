@@ -32,27 +32,25 @@
                         <tr>
                           <th>Servicio</th>
                           <th>Fecha</th>
-                          <th>Horario</th>
                           <th>Acompañantes</th>
                           <th>Importe</th>
                           <th>Acciones</th>
                         </tr>
                       </thead>
                       <tbody>
-						 {% for item in reservas %}	
-                        <tr>
-                          <th scope="row">{{ item.servicio.nombre }}</th>
-                          <td>{{ item.fechaDesde.date }}</td>
-                          <td>9:00 a 10:00</td>
-                          <td>{{ item.cantPersonas }}</td>
-                          <td>${{ item.valorTotal }}</td>
+						            {% for item in reservas %}	
+                        <tr id="tr_{{ item.id }}">
+                          <th scope="row" id="servicio">{{ item.servicio.nombre }}</th>
+                          <td id="fechaReserva">{{ item.fechaDesde.date }}</td>
+                          <td id="cantPersonas">{{ item.cantPersonas }}</td>
+                          <td id="valorTotal">${{ item.valorTotal }}</td>
                           <td>
                             <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Acción
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onClick="getIdReserva(this)" id="{{item.id}}">Acción
                               <span class="caret"></span>
                               <span class="sr-only">Toggle Dropdown</span>
                             </button>
-                            <ul class="dropdown-menu" role="menu">
+                            <ul class="dropdown-menu" role="menu" >
                               <li><a role= "menuitem" data-toggle="modal" data-target=".bs-example-modal-sm">Eliminar</a></li>
                               <li><a role="menuitem" data-toggle="modal" data-target=".bs-example5-modal-lg">Pagar</a></li>
                               <li><a role="menuitem" data-toggle="modal" data-target=".bs-example3-modal-lg">Editar</a></li>
@@ -81,37 +79,18 @@
                         </div>
                         <div class="modal-body">
                           <h4>¿Desea eliminar la reserva?</h4>
-                          <p>Información de la reserva</p>
+                          <p id="info_servicio_p"></p>
+                          <p id="info_reserva_p">Información de la reserva</p>
+                          <input type="hidden" id="id_reserva_eliminar" value="">
                         </div>
                         <div class="modal-footer">
                           <button type="submit" class="btn btn-cancel btn-block" data-dismiss="modal">Cancelar</button>
-                          <button type="submit" class="btn btn-success btn-block" data-dismiss="modal" data-toggle="modal" data-target=".bs-example2-modal-sm">Confirmar</button>
+                          <button type="submit" class="btn btn-success btn-block" data-dismiss="modal" onclick="eliminarReserva();">Confirmar</button>
                         </div>
                       </div>
                     </div>
                   </div>
                   <!-- Modal 1 -->
-                  <!-- Modal 2 -->
-                  <div class="modal fade bs-example2-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-sm">
-                      <div class="modal-content">
-
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
-                          </button>
-                          <h4 class="modal-title" id="confirmadoModal">Reserva Eliminada</h4>
-                        </div>
-                        <div class="modal-body">
-                          <h4>Confirmado</h4>
-                          <p>La reserva del cliente xxxx ha sido eliminada</p>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="submit" class="btn btn-cancel btn-block" data-dismiss="modal">Cerrar</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Modal 2 -->
                   <!-- Modal 3 -->
                   <div class="modal fade bs-example3-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
@@ -187,6 +166,7 @@
                     </div>
                   </div>
                   <!-- Modal 4 -->
+
                   <!-- Modal 5 -->
                   <div class="modal fade bs-example5-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
@@ -405,9 +385,14 @@
     <script src="{{ asset('assets/vendors/nprogress/nprogress.js') }}"></script>
     <!-- iCheck -->
     <script src="{{ asset('assets/vendors/iCheck/icheck.min.js') }}"></script>
-	 <!-- bootstrap-daterangepicker -->
+	  <!-- bootstrap-daterangepicker -->
     <script src="/assets/js/moment/moment.min.js"></script>
-	 <script src="/assets/js/datepicker/daterangepicker.js"></script>
+	  <script src="/assets/js/datepicker/daterangepicker.js"></script>
+
+    <!-- PNotify -->
+    <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.js') }}"></script>
+    <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
+    <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('assets/js/custom.min.js') }}"></script>
@@ -434,5 +419,67 @@
 
        </script>
    <!-- /bootstrap-daterangepicker -->
+
+   <!--Ecorp -->
+   <script >
+
+      // Setea los parametros para los dialogos modales
+     function setInfoReserva(o){
+        console.debug(o.id);
+        var id_reserva = o.id;
+        $("#id_reserva_eliminar").val(id_reserva);
+        var fecha =   $("#tr_"+ id_reserva).find('td#fechaReserva').html();
+        var monto =   $("#tr_"+ id_reserva).find('td#monto').html();
+        var servicio = $("#tr_"+ id_reserva).find('th#servicio').html();
+        {% autoescape false %}
+        var nombre = "{{cliente.apellido}}" + " " + "{{cliente.nombre}}";
+        {% endautoescape %}
+        console.debug(fecha);
+        
+        var infoReserva = nombre +" |" + "Monto : $" + monto;
+        var infoServicio = "Servicio : "+ servicio ;
+
+        $('#info_reserva_p').text(infoReserva);
+        $('#info_servicio_p').text(infoServicio);
+
+     }
+
+     // Ejecuta la eliminicación de la reserva y responde sobre el estado
+     function eliminarReserva(o){
+
+        var id_reserva = $("#id_reserva_eliminar").val();
+        // Consulta Ajax
+        $.ajax({
+            type:"POST",
+            url: "{{ path('ajax_eliminar_reserva') }}",
+            data: {'id_reserva':id_reserva },
+            dataType: 'json',
+             success: function (response){              
+                //Respuesta
+                if(response.mje ==  "OK"){
+                    new PNotify({
+                    title: 'Reserva Eliminada',
+                    text: 'Se han guardo los cambios del cliente',
+                    type: 'success',                    
+                    styling: 'bootstrap3'
+                    });
+                  window.scrollTo(0,0);
+
+                }
+                else{
+                    // Estado Invalido
+                    new PNotify({
+                    title: 'No eliminar la reserva',
+                    text: 'Hubo un problema elimnando la reserva '+ id_reserva + ". Intentelo mas tarde.",
+                    type: 'error',                    
+                    styling: 'bootstrap3'
+                    });
+                }
+            }
+          });
+     }
+
+   </script>
+   <!-- -->
 
 {% endblock %}
