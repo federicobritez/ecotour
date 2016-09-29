@@ -115,7 +115,7 @@ class DefaultController extends Controller
 
 
  /**
-  * Render reservas page.
+  * Render Reservas page.
   *
   * @Route("/reservas/{page}", name="reservas_page", defaults={"page"="listado"})
   *
@@ -306,7 +306,7 @@ class DefaultController extends Controller
 		return $this->render(sprintf('ecotour/%s.html.twig', "reservasFinalizar"),
 									array('request' => $request));
 	} //endif finalizar
-	else if ($page  == "editarReserva"){
+	else if ($page  == "editar"){
 		$idReserva = $reques->get('idReserva');
 		$reserva = $em->getRepository('AppBundle:Reserva')->find($idReserva);
 		$habitaciones = $em->getRepository('AppBundle:ReservasHabitaciones')->findBy(array('reserva'=>$reserva->getId()));
@@ -407,7 +407,7 @@ class DefaultController extends Controller
 
 
  /**
-  * Render Informes page
+  * Render Clientes page
   *
   * @Route("/clientes/{page}", name="clientes_page", defaults={"page" = "listado"})
   *
@@ -441,7 +441,7 @@ class DefaultController extends Controller
 
 		return $this->render(sprintf('ecotour/%s.html.twig',"clientesListado"),
 									array('clientes' => $clientes ,
-											'reservas' => $reservas));
+										  'reservas' => $reservas));
 
 	}
 	
@@ -469,14 +469,14 @@ class DefaultController extends Controller
 	else if($page== "porFecha"){
 		return $this->render(sprintf('ecotour/%s',"clientesListado2.html.twig"),
 									array('clientes' => $clientes,
-											'reservas'=>$reservas));
+										  'reservas'=>$reservas));
 
 	}
 
  }
 
  /**
-  * Render Informes page
+  * Render Pagos page
   *
   * @Route("/pagos/{page}", name="pagos_page", defaults={"page" = "ingresar"})
   *
@@ -492,15 +492,22 @@ class DefaultController extends Controller
  		
 		$idCliente = $request->query->get('id');
 		$cliente =  $em->getRepository('AppBundle:Cliente')->find($idCliente);
+
+		/*  Listado de Servicios No Reservables	   */
+		$query = $em->createQuery('SELECT tp FROM AppBundle:TipoPago tp');
+		$tipo_pago = $query->getResult(); 
 			
 		$reservasCliente = $this->getDoctrine()->
 											getRepository('AppBundle:Reserva')->
 													findBy(array('cliente'=> $cliente));
+
+
 		
 		return $this->render(sprintf('ecotour/%s.html.twig',"pagosIngresar"),
 									array('request' => $request,
 											'reservas'=> $reservasCliente,
-											'cliente' => $cliente));
+											'cliente' => $cliente,
+											'tipo_pago' => $tipo_pago));
 		
 	}
 	elseif($page == "comprar"){

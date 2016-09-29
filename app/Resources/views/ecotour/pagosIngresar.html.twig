@@ -46,14 +46,14 @@
                           <td id="valorTotal">${{ item.valorTotal }}</td>
                           <td>
                             <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onClick="getIdReserva(this)" id="{{item.id}}">Acción
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onClick="setInfoReserva(this)" id="{{item.id}}">Acción
                               <span class="caret"></span>
                               <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu" role="menu" >
                               <li><a role= "menuitem" data-toggle="modal" data-target=".bs-example-modal-sm">Eliminar</a></li>
-                              <li><a role="menuitem" data-toggle="modal" data-target=".bs-example5-modal-lg">Pagar</a></li>
-                              <li><a role="menuitem" data-toggle="modal" data-target=".bs-example3-modal-lg">Editar</a></li>
+                              <li><a role="menuitem" data-toggle="modal" data-target=".bs-example2-modal-sm">Pagar</a></li>
+                              <li><a role="menuitem" href="{{ path('reservas_page', {'page': 'editar'}) }}id={{item.id}}">Editar</a></li>
                             </ul>
                           </div>
                           </td>
@@ -81,7 +81,8 @@
                           <h4>¿Desea eliminar la reserva?</h4>
                           <p id="info_servicio_p"></p>
                           <p id="info_reserva_p">Información de la reserva</p>
-                          <input type="hidden" id="id_reserva_eliminar" value="">
+                          <input type="hidden" id="id_reserva_select" value="">
+                          <input type="hidden" id="monto_reserva" value="">
                         </div>
                         <div class="modal-footer">
                           <button type="submit" class="btn btn-cancel btn-block" data-dismiss="modal">Cancelar</button>
@@ -91,81 +92,45 @@
                     </div>
                   </div>
                   <!-- Modal 1 -->
-                  <!-- Modal 3 -->
-                  <div class="modal fade bs-example3-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                          <div class="modal-content">
 
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
-                              </button>
-                              <h4 class="modal-title" id="myModalLabel2">Modificar Reserva</h4>
-                            </div>
-                            <div class="modal-body">
-                              <h4>Cliente xxxx</h4>
-                              <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                <!-- <input type="date" name="fecha" class="form-control has-feedback-left" id="inputSuccess4" placeholder="Fecha"> -->
-                                <input id="fecha_inicio" name="fecha_inicio" class="date-picker form-control col-md-7 col-xs-12 has-feedback-left" required="required" type="text" placeholder="Fecha Inicio"><span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                              </div>
-
-                              <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                <!-- <input type="date" name="fecha" class="form-control has-feedback-left" id="inputSuccess4" placeholder="Fecha"> -->
-                                <input id="fecha_fin" name="fecha_fin" class="date-picker form-control col-md-7 col-xs-12 has-feedback-left" required="required" type="text" placeholder="Fecha Fin" readonly="readonly"><span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                              </div>
-                              <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                <label>Hora:</label>
-                                <select class="form-control">
-                                  <option>08:00 a 09:00</option>
-                                  <option>09:00 a 10:00</option>
-                                  <option>10:00 a 11:00</option>
-                                  <option>11:00 a 12:00</option>
-                                  <option>14:00 a 15:00</option>
-                                  <option>15:00 a 16:00</option>
-                                  <option>16:00 a 17:00</option>
-                                </select>
-                              </div>
-                              <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                <label>Hora:</label>
-                                <select class="form-control" disabled="disabled">
-                                  <option>08:00 a 09:00</option>
-                                  <option>09:00 a 10:00</option>
-                                  <option>10:00 a 11:00</option>
-                                  <option>11:00 a 12:00</option>
-                                  <option>14:00 a 15:00</option>
-                                  <option>15:00 a 16:00</option>
-                                  <option>16:00 a 17:00</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="submit" class="btn btn-cancel btn-block" data-dismiss="modal">Cancelar</button>
-                              <button type="submit" class="btn btn-success btn-block" data-dismiss="modal" data-toggle="modal" data-target=".bs-example4-modal-sm">Confirmar</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                  <!-- Modal 3 -->
-                  <!-- Modal 4 -->
-                  <div class="modal fade bs-example4-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                  <!-- Modal Seleccion Tipo Pago -->
+                  <div class="modal fade bs-example2-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
                       <div class="modal-content">
 
                         <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
                           </button>
-                          <h4 class="modal-title" id="confirmadoModal">Reserva Modificada</h4>
+                          <h4 class="modal-title" id="myModalLabel2">Seleccione Forma de Pago</h4>
                         </div>
                         <div class="modal-body">
-                          <h4>Confirmado</h4>
-                          <p>La reserva del cliente xxxx ha sido moficada</p>
+                          <h4>Formas de pago disponibles</h4>
+                            <div  id="radio_forma_pago">
+                              {% for tipo in tipo_pago %}
+
+                              <div class="radio" >
+                                <label >
+                                  <input type="radio"   id="id_tipo_{{ tipo.id }}" value="{{tipo.interes}}_{{tipo.cantCuotas}}" name="rTipoPago"> {{tipo.descripcion}}
+                                </label>
+                              </div>
+                           
+                            {% endfor%}
+                             </div>
+
+                             <div>
+                             <h4>Total con Interes : <strong id="total_calculado"><strong></h4>
+
+                             </div>
+
                         </div>
                         <div class="modal-footer">
-                          <button type="submit" class="btn btn-cancel btn-block" data-dismiss="modal">Cerrar</button>
+                          <button type="submit" class="btn btn-cancel btn-block" data-dismiss="modal">Cancelar</button>
+                          <button type="submit" class="btn btn-success btn-block" data-dismiss="modal" onclick="eliminarReserva();">Confirmar</button>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <!-- Modal 4 -->
+                  <!-- Modal 1 -->
 
                   <!-- Modal 5 -->
                   <div class="modal fade bs-example5-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
@@ -423,31 +388,63 @@
    <!--Ecorp -->
    <script >
 
+
+      $('input:radio[name=rTipoPago]').click(function () {
+          var cuota_interes = this.value.split("_");
+
+          var total_calculado = $('#monto_reserva').val();
+         
+          total_calculado = total_calculado.slice(1);
+          var interes = (100+ eval(cuota_interes[0]))/100;
+
+          total_calculado = total_calculado * interes;
+          $('#total_calculado').text("$"+total_calculado);
+
+      });
+
       // Setea los parametros para los dialogos modales
      function setInfoReserva(o){
         console.debug(o.id);
         var id_reserva = o.id;
-        $("#id_reserva_eliminar").val(id_reserva);
+        $("#id_reserva_select").val(id_reserva);
         var fecha =   $("#tr_"+ id_reserva).find('td#fechaReserva').html();
-        var monto =   $("#tr_"+ id_reserva).find('td#monto').html();
+        var monto =   $("#tr_"+ id_reserva).find('td#valorTotal').html();
         var servicio = $("#tr_"+ id_reserva).find('th#servicio').html();
         {% autoescape false %}
         var nombre = "{{cliente.apellido}}" + " " + "{{cliente.nombre}}";
         {% endautoescape %}
         console.debug(fecha);
         
-        var infoReserva = nombre +" |" + "Monto : $" + monto;
+        var infoReserva = nombre +" |" + "Monto : " + monto;
         var infoServicio = "Servicio : "+ servicio ;
 
         $('#info_reserva_p').text(infoReserva);
         $('#info_servicio_p').text(infoServicio);
+        $('#total_calculado').text(monto);
+        $('#monto_reserva').val(monto);
+
+        /*
+        var $divRadio = $('<div>').addClass("radio");
+
+        var $radioBtn = $('<input>').attr({ type: 'radio', name:'visa' , value:'visa', id:'id_visa', class:'flat'}).addClass("flat").addClass("flat");
+        var $label = $('<label>').text("FEderico");
+        $label.append($radioBtn);
+        $label.appendTo($divRadio)
+        $divRadio.appendTo('#radio_forma_pago');
+         */
+
+
+         //$('#radio_forma_pago').append($label);
+
+
 
      }
+
 
      // Ejecuta la eliminicación de la reserva y responde sobre el estado
      function eliminarReserva(o){
 
-        var id_reserva = $("#id_reserva_eliminar").val();
+        var id_reserva = $("#id_reserva_select").val();
         // Consulta Ajax
         $.ajax({
             type:"POST",
