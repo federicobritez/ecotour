@@ -38,6 +38,7 @@ use AppBundle\Entity\EstadoReserva;
 use AppBundle\Entity\HorariosReserva;
 use AppBundle\Entity\ReservasHabitaciones;
 use AppBundle\Entity\Habitaciones;
+use AppBundle\Entity\TipoPago;
 
 
 class DefaultController extends Controller
@@ -457,7 +458,7 @@ class DefaultController extends Controller
 			$consumo = new ConsumoCliente();
 			$consumo->setCliente($em->getRepository('AppBundle:Cliente')->find($idCliente));
 			$consumo->setServicio($em->getRespository('AppBundle:Servicio')->find($idSer));
-			$consumo->setTipoPago($em->getRepository('AppBundle:TipoDePago')->find($idTipoPago));
+			$consumo->setTipoPago($em->getRepository('AppBundle:TipoPago')->find($idTipoPago));
 			$consumo->setMontoAbonado($montosAbonaos);
 			$consumo->setSaldo(0);
 			$consumo->setFecha(date(new \DateTime(date("Y-m-d H:i:s"))));
@@ -522,6 +523,27 @@ class DefaultController extends Controller
 											'cliente' => $cliente,
 											'mercaderia'=> $mercaderia));
 		}
+	elseif($page == "ver_factura"){
+		$idReserva = $request->get("id_reserva");
+		$idTipoPago = $request->get("id_tipopago");
+
+			
+		/*Obtengo la reserva*/
+		$reserva = $this->getDoctrine()->getRepository('AppBundle:Reserva')->find($idReserva);
+
+		if($reserva == null){
+			$respuesta= "ERROR";
+		}
+		else{
+			$cliente = $reserva->getCliente();
+			$tipoPago = $em->getRepository('AppBundle:TipoPago')->find($idTipoPago);
+			//$em->remove($reserva); $em->flush();
+			return $this->render(sprintf('ecotour/%s.html.twig',"pagosVerFactura"),
+								array('reserva' => $reserva, 
+									  'cliente' => $cliente,
+									  'tipoPago'=> $tipoPago));
+		}
+	}
   }
 
  /**
@@ -698,6 +720,54 @@ class DefaultController extends Controller
 			$respuesta= "OK";
 		}
 
+	   return new JsonResponse(array('mje' => $respuesta));
+  }
+  
+  /**
+  * Ajax Pagos
+  *
+  * @Route("/ajaxServicios/pagorReserva", name="ajax_pagar_reserva")
+  *
+  * @param Request $request
+  *
+  * @return Response
+  */
+
+  public function ajaxPagarReservaAction(Request $request){
+
+  		$em = $this->getDoctrine()->getManager();			
+		$id_reserva = $request->get("id_reserva");
+		$id_tipoPago = $request->get("id_tipopago");
+		$respuesta="";	
+
+		/*Obtengo la reserva*/
+		$reserva = $this->getDoctrine()->getRepository('AppBundle:Reserva')->find($id_reserva);
+
+		if($reserva == null){
+			$respuesta= "ERROR";
+		}
+		else{
+
+			//$em->remove($reserva); $em->flush();
+			$respuesta= "OK";
+		}
+
+	   return new JsonResponse(array('mje' => $respuesta));
+  }
+
+  /**
+  * Ajax Pagos
+  *
+  * @Route("/ajaxServicios/imprimirFactura", name="ajax_imprimir_factura")
+  *
+  * @param Request $request
+  *
+  * @return Response
+  */
+
+  public function ajaxImprimirFacturaAction(Request $request){
+
+  		
 	   return new JsonResponse(array('mje' => $respuesta));
   }
 
