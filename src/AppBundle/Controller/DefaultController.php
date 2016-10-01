@@ -55,26 +55,12 @@ class DefaultController extends Controller
   */
   public function indexAction(Request $request)
   {
-	/*
-
-     $templateName = basename(sprintf('ecotour/%s.html.twig', $page));
-     if ($templateName !== sprintf('%s.html.twig', $page)) {
-         throw $this->createNotFoundException('Page not found');
-     }
-     if (!$this->get('templating')->exists(sprintf('ecotour/%s', $templateName))) {
-         throw $this->createNotFoundException(
-             sprintf(
-                 'Page "%s" not found',
-                 $page
-             )
-         );
-     }
-	**/
+	
 
 	$conn = $this->get('database_connection');
 	$users = $conn->fetchAll('SELECT * FROM usuario');
 	return $this->render(sprintf('ecotour/%s.html.twig', "login"),array('usuarios' => $users ));
-	}
+  }
 	
 	
 	
@@ -445,32 +431,19 @@ class DefaultController extends Controller
 										  'reservas' => $reservas));
 
 	}
-	
-	else if($page == "pagos") { //Pagos de Servicios Consumidos
-	
-		$idsServicios = $request->get('idsServicio');
-		$idCliente = $request->get('idCliente');
-		$montosAbonados = $request->get('montosAbonado');
-		$idTipoPago = $request->get('idTipoPago');
-
-		foreach($idsServicios as $idServ ){
-
-			$consumo = new ConsumoCliente();
-			$consumo->setCliente($em->getRepository('AppBundle:Cliente')->find($idCliente));
-			$consumo->setServicio($em->getRespository('AppBundle:Servicio')->find($idSer));
-			$consumo->setTipoPago($em->getRepository('AppBundle:TipoPago')->find($idTipoPago));
-			$consumo->setMontoAbonado($montosAbonaos);
-			$consumo->setSaldo(0);
-			$consumo->setFecha(date(new \DateTime(date("Y-m-d H:i:s"))));
-
-			$em->persist($consumo);
-		}
-		$em->flush();
-	}
 	else if($page== "porFecha"){
 		return $this->render(sprintf('ecotour/%s',"clientesListado2.html.twig"),
 									array('clientes' => $clientes,
 										  'reservas'=>$reservas));
+
+	}
+	else if($page == "editar"){
+
+		$idCliente = $request->get('id');
+		$cliente =  $em->getRepository('AppBundle:Cliente')->find($idCliente);
+
+		return $this->render(sprintf('ecotour/%s',"clientesEditar.html.twig"),
+									array('cliente' => $cliente));
 
 	}
 
@@ -537,11 +510,24 @@ class DefaultController extends Controller
 		else{
 			$cliente = $reserva->getCliente();
 			$tipoPago = $em->getRepository('AppBundle:TipoPago')->find($idTipoPago);
-			//$em->remove($reserva); $em->flush();
+
+			$saldo =  array();
+			$saldo["subtotal"] =$reserva->getCantPersonas() * $reserva->getServicio()->getValorUnitario();
+
+			$interes = ($tipoPago->getInteres()/100)* $saldo["subtotal"];
+				
+			$saldo["interes"] = $interes;
+
+			$saldo["iva"] = 0.21 * $saldo["subtotal"];
+
+			$saldo["total"] = $saldo["subtotal"] + $saldo["interes"]  + $saldo["iva"];
+			
 			return $this->render(sprintf('ecotour/%s.html.twig',"pagosVerFactura"),
 								array('reserva' => $reserva, 
 									  'cliente' => $cliente,
-									  'tipoPago'=> $tipoPago));
+									  'tipoPago'=> $tipoPago,
+									  'detalleSaldo' => $saldo,
+									  'serverTime' => new \DateTime(date("Y-m-d H:i:s"))));
 		}
 	}
   }
@@ -722,6 +708,64 @@ class DefaultController extends Controller
 
 	   return new JsonResponse(array('mje' => $respuesta));
   }
+
+  
+
+  /**
+  * Ajax Reservas
+  *
+  * @Route("/ajaxServicios/editarCliente", name="ajax_cliente_editar")
+  *
+  * @param Request $request
+  *
+  * @return Response
+  */
+
+  public function ajaxEdigarClienteAction(Request $request){
+
+  		$em = $this->getDoctrine()->getManager();			
+
+  		$idCliente = $request->get("id_cliente");
+
+		$nombre = $request->get("nombre");
+		$apellido = $request->get("apellido");
+		$dni = $request->get("dni");
+		$telefono1 = $request->get("telefono1");
+		$telefono2 = $request->get("telefono2");
+		$correo = $request->get("correo");
+		$pais = $request->get("pais");
+		$provincia = $request->get("provincia");
+		$localidad = $request->get("localidad");
+		
+		$respuesta="";
+
+		$cliente = $this->getDoctrine()->getRepository('AppBundle:Cliente')->find($idCliente);
+		
+		if($cliente == null){
+			$respuesta= "ERROR";
+		}
+		else{
+
+			$cliente->setNombre($nombre);
+			$cliente->setApellido($apellido);
+			$cliente->setDni($dni);
+			$cliente->setTelefono1($telefono1);
+			$cliente->setTelefono2($telefono2);
+			$cliente->setCorreo($correo);
+			$cliente->setPais($pais);
+			$cliente->setProvincia($provincia);
+			$cliente->setCiudad($localidad);
+
+			$em->persist($cliente); 
+			$em->flush();
+			$respuesta= "OK";
+		}
+
+	   return new JsonResponse(array('mje' => $respuesta));
+  }
+
+
+
   
   /**
   * Ajax Pagos
@@ -737,7 +781,10 @@ class DefaultController extends Controller
 
   		$em = $this->getDoctrine()->getManager();			
 		$id_reserva = $request->get("id_reserva");
-		$id_tipoPago = $request->get("id_tipopago");
+		$id_tipopago = $request->get("id_tipopago");
+		$montoTotal = $request->get("monto_abonado");
+		$monto_abonado = $request->get("monto_abonado");
+
 		$respuesta="";	
 
 		/*Obtengo la reserva*/
@@ -747,8 +794,20 @@ class DefaultController extends Controller
 			$respuesta= "ERROR";
 		}
 		else{
+			$tipoPago = $this->getDoctrine()->getRepository('AppBundle:Reserva')->find($id_tipopago);
 
-			//$em->remove($reserva); $em->flush();
+			$consumosCliente = new ConsumosCliente();
+			$consumosCliente->setCliente($reserva->getCliente());
+			$consumosCliente->setServicio($reserva->getServicio());
+			$consumosCliente->setMontoAbonado($monto_abonado);
+			$consumosCliente->setSaldo($montoTotal-$monto_abonado);
+			$consumosCliente->setTipoPago($tipoPago);
+			$consumosCliente->setFecha(new \DateTime(date("Y-m-d H:i:s")));
+
+			$em->persist($consumo);
+
+			$em->flush();
+
 			$respuesta= "OK";
 		}
 
@@ -766,10 +825,18 @@ class DefaultController extends Controller
   */
 
   public function ajaxImprimirFacturaAction(Request $request){
-
   		
 	   return new JsonResponse(array('mje' => $respuesta));
   }
+
+
+
+
+
+
+
+
+
 
 
  /**

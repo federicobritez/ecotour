@@ -41,7 +41,7 @@
 						            {% for item in reservas %}	
                         <tr id="tr_{{ item.id }}">
                           <th scope="row" id="servicio">{{ item.servicio.nombre }}</th>
-                          <td id="fechaReserva">{{ item.fechaDesde.date }}</td>
+                          <td id="fechaReserva">{{ item.fechaDesde.date|date("d/m/Y h:m") }}</td>
                           <td id="cantPersonas">{{ item.cantPersonas }}</td>
                           <td id="valorTotal">${{ item.valorTotal }}</td>
                           <td>
@@ -193,7 +193,7 @@
 
       $('#btnVerFactura').click(function(){
           var id_reserva = $("#id_reserva_select").val();
-          var id_tipopago = $('input[name="rTipoPago"]:checked').val();
+          var id_tipopago = $('input[name="rTipoPago"]:checked').attr('id');
           var pVerFactura = "{{ path('pagos_page', {'page': 'ver_factura'}) }}?id_reserva="+id_reserva+"&id_tipopago="+id_tipopago;
           window.location.href= pVerFactura;
 
