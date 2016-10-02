@@ -58,8 +58,8 @@
                         -->
                       </ul>
           
-          <div id="step-1">
           <form id="form_reserva" action="{{ path('reservas_page', {'page': 'finalizar'}) }}" method="post" novalidate>           
+          <div id="step-1">
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="x_panel">
 								<div class="x_title">
@@ -514,7 +514,7 @@
     								  <div class="x_content">
 										<label class="control-label col-md-3 col-sm-3 col-xs-12">Cantidad Personas</label>
 											<div class="col-md-9 col-sm-9 col-xs-12">
-											<select class="form-control" name="serv_7_cant">
+											<select class="form-control" name="serv_8_cant">
 											{% for i in 1..servicios[6].servicio.maxPlazas %}
 												<option>{{i}}</option>
 											{% endfor%}
@@ -528,7 +528,7 @@
 										<div class="controls">
 											<div class="input-prepend input-group">
 												<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="text" style="width: 200px" name="reservation7" id="reservation7" class="form-control" value="03/18/2016 - 03/23/2016" />
+												<input type="text" style="width: 200px" name="reservation8" id="reservation8" class="form-control" value="03/18/2016 - 03/23/2016" />
 											</div>
 										</div>
 									   </div>
@@ -537,8 +537,8 @@
 									 <div class="x_content">
 										<label class="control-label col-md-3 col-sm-3 col-xs-12">Horario</label>
 											<div class="col-md-9 col-sm-9 col-xs-12">
-											<select class="form-control" name="serv_7_horario">
-												{% for turno in horarios[6]%}
+											<select class="form-control" name="serv_8_horario">
+												{% for turno in horarios[8]%}
 													<option value="{{turno.id}}">{{turno.hora_inicio}} - {{turno.hora_fin}}</option>			
 												{% endfor%}
 											</select>
@@ -548,7 +548,7 @@
 							</div>
 						</div>
 						<!-- Fin Guia Pesca -->
-					</div> <!-- Fin Step 3-->
+            </div> <!-- Fin Step 3-->
           </form>
         </div><!-- End SmartWizard Content -->
                     
@@ -632,14 +632,32 @@
 		$('#form_reserva').submit(function(e){
 			e.preventDefault();
 			var submit = true,
-				validatorResult = validator.checkAll(this);
+			validatorResult = validator.checkAll(this);
 				
 			console.debug('Validation Result:');
 			//console.debug( validatorResult );
 
+      if(validatorResult != true ){
+
+        // Notificación por formulario Incompleto o invalido
+        new PNotify({
+          title: 'Hay Datos incompletos ',
+          text: 'Algunas informaciones son incorrectas o ausentes. Por favor corrijalas y vuelva a interntarlo',
+          type: 'error',
+          hide: false,
+          styling: 'bootstrap3'
+        });
+
+        window.scrollTo(0,0);
+       
+      }
+
 
       //Validaciones de Servicios seleccionados
-      var servSelect = $('input[name="servicios[]"]:checked').map(function () { return this.value; }).get();
+      var servSelect = $('input[name="servicios[]"]:checked').map(function () {
+              return this.value;
+          }).get();
+      //console.debug(servSelect);
       
 
       //Para la posada necesita que haya habitaciones marcadas
@@ -658,30 +676,20 @@
               hide: false,
               styling: 'bootstrap3'
             });
-
+            validatorResult = false;
             window.scrollTo(0,0);
         }
       }
-			// Validate the form using generic validaing
-			if( validatorResult.valid ){
+      if(validatorResult ){
           this.submit();
-			}
+      }
+			// Validate the form using generic validaing
+			
       
-
-      // Notificación por formulario Incompleto o invalido
-      new PNotify({
-        title: 'Hay Datos incompletos ',
-        text: 'Algunas informaciones son incorrectas o ausentes. Por favor corrijalas y vuelva a interntarlo',
-        type: 'error',
-        hide: false,
-        styling: 'bootstrap3'
-      });
-
-      window.scrollTo(0,0);
-     
 			return false;
 		});
 		
+    
 
 
 	</script>
@@ -713,6 +721,7 @@
           var servSelect = $('input[name="servicios[]"]:checked').map(function () {
               return this.value;
           }).get();
+
           
 
           // Muestra solo los parametros de servicios activados
@@ -724,6 +733,7 @@
           
           for(j in servSelect){
             $('#servicio'+servSelect[j]).show();
+            console.debug("Servicio activado :"+servSelect[j]);
             $('#reservation'+servSelect[j]).daterangepicker(null, function(start, end, label) {
               console.log(start.toISOString(), end.toISOString(), label);
             });

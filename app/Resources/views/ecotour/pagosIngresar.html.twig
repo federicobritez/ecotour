@@ -10,7 +10,8 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Informar Pago: {{cliente.apellido}} {{cliente.nombre}}</h3>
+                <h3>Informar Pago: {{cliente.apellido}} {{cliente.nombre}} </h3>
+
               </div>
             </div>
 
@@ -43,7 +44,7 @@
                           <th scope="row" id="servicio">{{ item.servicio.nombre }}</th>
                           <td id="fechaReserva">{{ item.fechaDesde.date|date("d/m/Y h:m") }}</td>
                           <td id="cantPersonas">{{ item.cantPersonas }}</td>
-                          <td id="valorTotal">${{ item.valorTotal }}</td>
+                          <td id="valorTotal">${{ item.valorTotal|number_format(2, ',', '.') }}</td>
                           <td>
                             <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onClick="setInfoReserva(this)" id="{{item.id}}">Acción
@@ -116,11 +117,9 @@
                            
                             {% endfor%}
                              </div>
-
-                             <div>
-                             <h4>Total con Interes : <strong id="total_calculado"><strong></h4>
-
-                             </div>
+                            <div>
+                             <h4>Total con Interes : <strong id="total_calculado"> </strong></h4>
+                            </div>
 
                         </div>
                         <div class="modal-footer">
@@ -130,16 +129,15 @@
                       </div>
                     </div>
                   </div>
-                  <!-- Modal 1 -->
-
-                  
-
-                  
-                      
+                  <!-- Modal 1 -->  
+                </div>
+              </div>
+              </div>
+              
         <!-- page content -->
-      </div>
+      
     </div>
-        
+    </div>
 
     <!-- jQuery -->
     <script src="{{ asset('assets/vendors/jquery/dist/jquery.min.js') }}"></script>
@@ -154,6 +152,9 @@
 	  <!-- bootstrap-daterangepicker -->
     <script src="/assets/js/moment/moment.min.js"></script>
 	  <script src="/assets/js/datepicker/daterangepicker.js"></script>
+   
+    <!--  accounting Number and Monoy Format-->
+    <script src="/assets/js/accounting.js/accounting.min.js"></script>
 
     <!-- PNotify -->
     <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.js') }}"></script>
@@ -205,9 +206,12 @@
           console.debug("Interes de tipo de pago:"+cuota_interes[0]);
 
           var total_calculado = $('#monto_reserva').val();
-          console.debug("total:"+total_calculado);
+          
 
           total_calculado = total_calculado.slice(1);
+          total_calculado = total_calculado.replace(',','.');
+
+          console.debug("total:"+total_calculado);
           var interes = (100+ eval(cuota_interes[0]))/100;
           console.debug("Monto del interes:"+interes);
 
@@ -215,7 +219,7 @@
 
           total_calculado = parseFloat(Math.round(total_calculado * 100) / 100).toFixed(2);
 
-          $('#total_calculado').text("$"+total_calculado);
+          $('#total_calculado').text(accounting.formatMoney(total_calculado, "$", 2, ".", ","));
 
       });
 

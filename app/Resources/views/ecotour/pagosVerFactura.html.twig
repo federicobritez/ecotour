@@ -4,7 +4,7 @@
 {% block topnav %} {{ parent() }} {% endblock %}
 {% block body %} {{ parent() }}
 
-<!-- page content -->
+      <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
@@ -41,7 +41,7 @@
                             <i class="fa fa-globe"></i> Factura A <h2 class="pull-right">Fecha: {{serverTime.date|date("d/m/Y h:m")}}</h2>
                           </h1>
                         </div>
-                        <!-- /.col -->
+                        <!-- .col -->
                       </div>
 
                       <!-- info row -->
@@ -79,7 +79,7 @@
                         </div>
                         <!-- /.col -->
                       </div>
-                      <!-- /.row -->
+                      <!-- .row -->
 
                       <!-- Table row -->
                       <div class="row">
@@ -100,7 +100,7 @@
                                 <td> {{reserva.servicio.nombre}}</td>
                                 <td> {{reserva.servicio.id}}</td>
                                 <td> {{reserva.servicio.descripcion}}</td>
-                                <td> {{detalleSaldo.subtotal}}</td>
+                                <td> {{detalleSaldo.subtotal|number_format(2, ',', '.')}}</td>
                               </tr>
                             </tbody>
                           </table>
@@ -123,75 +123,75 @@
                               <tbody>
                                 <tr>
                                   <th style="width:50%">Subtotal:</th>
-                                  <td>$ {{detalleSaldo.subtotal}}</td>
+                                  <td>$ {{detalleSaldo.subtotal|number_format(2, ',', '.')}}</td>
                                 </tr>
                                 <tr>
                                   <th>IVA (21%)</th>
-                                  <td>$ {{detalleSaldo.iva}}</td>
+                                  <td>$ {{detalleSaldo.iva|number_format(2, ',', '.')}}</td>
                                 </tr>
                                 <tr>
                                   <th style="width:50%">Interes pago con Credito:</th>
-                                  <td>$ {{detalleSaldo.interes}}</td>
+                                  <td>$ {{detalleSaldo.interes|number_format(2, ',', '.')}}</td>
                                 </tr>
 
                                 <tr>
                                   <th>Total:</th>
-                                  <td>$ {{detalleSaldo.total}}</td>
+                                  <td>$ {{detalleSaldo.total|number_format(2, ',', '.')}}</td>
                                 </tr>
                               </tbody>
                             </table>
                           </div>
                         </div>
-                        <!-- /.col -->
+                        <!-- col -->
                       </div>
-                      <!-- /.row -->
+                      <!-- row -->
 
-                      <!-- this row will not appear when printing -->
-                      <div class="row no-print">
-                        <div class="col-xs-6">
-                          <button class="btn btn-default btn-block"  onclick="jQuery('#dvContainer').print()" ><i class="fa fa-print"></i> Imprimir</button>
-                          <button type="submit" class="btn btn-cancel btn-block" id="btnCancelar">Cancelar y Volver</button>
-                          <button type="submit" class="btn btn-success btn-block" data-dismiss="modal" data-toggle="modal" data-target=".bs-confirmar-modal-sm">
-                            <i class="fa fa-credit-card"></i>Registar Pago</button>
-                          </div>
-                      </div>
-                    </section>
-					       </div>
-
-                <!-- Modal Confirmar Pago -->
-                  <div class="modal fade bs-confirmar-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-sm">
-                      <div class="modal-content">
-
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
-                          </button>
-                          <h4 class="modal-title" id="myModalLabel2">Confirmar el Pago</h4>
-                        </div>
-                        <div class="modal-body">
-                        <h4> ¿Esta seguro?</h4>
-                            
-
-                            <div>
-                                <h4>Total: <strong id="total_calculado"> TOTAL_FINAL <strong></h4>
+                            <!-- this row will not appear when printing -->
+                            <div class="row no-print">
+                              <div class="col-xs-6">
+                                  <button class="btn btn-default btn-block"  onclick="jQuery('#dvContainer').print()" ><i class="fa fa-print"></i> Imprimir</button>
+                                  <button type="submit" class="btn btn-cancel btn-block" id="btnCancelar">Cancelar y Volver</button>
+                                  <button type="submit" class="btn btn-success btn-block" data-dismiss="modal" data-toggle="modal" data-target=".bs-confirmar-modal-sm">
+                                    <i class="fa fa-credit-card"></i>Registar Pago</button>
+                              </div>
                             </div>
+                    </section>
+					        </div>
 
-                        </div>
-                        <div class="modal-footer">
-                          <button type="submit" class="btn btn-cancel btn-block" data-dismiss="modal">Cancelar</button>
-                          <button type="submit" class="btn btn-success btn-block" id="confirmar_pago"data-dismiss="modal"
-                          >Confirmar</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Modal 1 -->
-				    </div>
-                  </div>
-                </div>
+                        <!-- Modal Confirmar Pago -->
+                          <div class="modal fade bs-confirmar-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                              <div class="modal-content">
+
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                  </button>
+                                  <h4 class="modal-title" id="myModalLabel2">Confirmar el Pago</h4>
+                                </div>
+                                <div class="modal-body">
+                                  <h4> ¿Esta seguro?</h4>
+                                    <div>
+                                        <h4>Total: <strong id="total_calculado"> $ {{detalleSaldo.total|number_format(2, ',', '.')}} </strong></h4>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="submit" class="btn btn-cancel btn-block" data-dismiss="modal">Cancelar</button>
+                                  <button type="submit" class="btn btn-success btn-block" id="confirmar_pago"data-dismiss="modal"
+                                  >Confirmar</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Modal 1 -->
+				        </div>
               </div>
             </div>
-
+          </div>
+        </div>
+      <!-- page content -->
+      </div>
+    </div>
 
 
     <!-- jQuery -->
@@ -202,12 +202,15 @@
     <script src="{{ asset('assets/vendors/fastclick/lib/fastclick.js') }}"></script>
     <!-- NProgress -->
     <script src="{{ asset('assets/vendors/nprogress/nprogress.js') }}"></script>
+    <!-- iCheck -->
+    <script src="{{ asset('assets/vendors/iCheck/icheck.min.js') }}"></script>
     <!-- PNotify -->
     <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.js') }}"></script>
     <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
     <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 
-
+    <!-- Custom Theme Scripts -->
+    <script src="{{ asset('assets/js/custom.min.js') }}"></script>
 
     <!-- jQueryPrint -->
     <script src="{{ asset('assets/js/jquery-print/jQuery.print.js') }}"></script>
@@ -229,12 +232,13 @@
       $('#confirmar_pago').click(function(){  
         // Ejecuta el pago de la reserva y responde sobre el estado
         var id_reserva = "{{reserva.id}}" ;
-        var id_tipopago = "{{tipoPago.id}}"; 
+        var id_tipopago = "{{tipoPago.id}}";
+        var monto_abonado =  "{{detalleSaldo.total|number_format(2, ',', '.')}}";
 
         $.ajax({
             type:"POST",
             url: "{{ path('ajax_pagar_reserva') }}",
-            data: {'id_reserva':id_reserva , 'id_tipopago':id_tipopago},
+            data: {'id_reserva':id_reserva , 'id_tipopago':id_tipopago, 'monto_abonado' : monto_abonado},
             dataType: 'json',
              success: function (response){              
                 //Respuesta
@@ -262,8 +266,6 @@
 
 
       });
-
-
     </script>
 
 {% endblock %}

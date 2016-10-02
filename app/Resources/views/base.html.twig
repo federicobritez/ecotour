@@ -79,7 +79,11 @@
                     </ul>
                   </li>
                   
-                  <li><a href="{{ path('clientes_page', {'page': 'listado'}) }}"><i class="fa fa-users"></i>Clientes</a>
+                  <li><a ><i class="fa fa-users"></i>Clientes<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ path('clientes_page', {'page': 'listado'}) }}""> Listado de Cliente</a></li>
+                      <li><a href="{{ path('clientes_page', {'page': 'nuevo'}) }}">Crear Nuevo Cliente</a></li>
+                    </ul>
                   </li>
 
                   <li><a><i class="fa fa-star-half-o"></i>Servicios <span class="fa fa-chevron-down"></span></a>
