@@ -39,7 +39,7 @@ use AppBundle\Entity\HorariosReserva;
 use AppBundle\Entity\ReservasHabitaciones;
 use AppBundle\Entity\Habitaciones;
 use AppBundle\Entity\TipoPago;
-
+use AppBundle\Entity\ConsumosCliente;
 
 class DefaultController extends Controller
 {
@@ -329,28 +329,49 @@ class DefaultController extends Controller
   {
   		$conn = $this->get('database_connection');
 		$em = $this->getDoctrine()->getManager();
+
 		if($page == "clientesAtendidos"){
 
-			$serv_reservables = $conn->fetchAll('SELECT * FROM ecoturismo.servicio s Join ecoturismo.servicios_reservables sr on s.id = sr.servicio_id;');
+			$query = $em->createQuery('SELECT sr FROM AppBundle:ServiciosReservables sr');
+			$serv_reservables = $query->getResult();
+
 				
 			/*  Listado de Consumos del día 			   */
 	
-			$query = $em->createQuery('SELECT co FROM AppBundle:ConsumosCliente co WHERE co.fecha ='.date("Y-m-d").' AND co.servicio = :servicio  ORDER BY co.fecha  ASC');
+			//$query = $em->createQuery('SELECT co FROM AppBundle:ConsumosCliente co WHERE co.fecha ='.date("Y-m-d").' AND co.servicio = :servicio  ORDER BY co.fecha  ASC');
+
+
+
+			$query = $em->createQuery('SELECT co FROM AppBundle:ConsumosCliente co WHERE  co.servicio = :servicio  ORDER BY co.fecha  ASC');
+
 			$consumos = array();  // Arreglo diccionario donde guardar los consumos de cada servicio.
 			
-			foreach($serv_reservables as $servicio){
-				$query->setParameter('servicio', $servicio['id']);
+			$i = 0;
+			foreach($serv_reservables as $sr){
+				$query->setParameter('servicio', $sr->getServicio()->getId());
 				
-				$servNombre = $servicio['nombre'];
+				$servNombre = $sr->getServicio()->getNombre();
 				
-				$consumos[$servNombre]= $query->getResult(); // array de Objetos ConsumosCliente
-				
+				$resQuery = $query->getResult();
+
+				if(count($resQuery) > 0){
+					$consumos[$servNombre] = $resQuery; // array de Objetos ConsumosCliente
+				}
+				$i++;
 			}
+			$qb = $em->createQueryBuilder();
+			$qb->select('SUM(co.montoAbonado) as sumaTotal')->from('AppBundle:ConsumosCliente','co');
+			$qb->where('co.fecha BETWEEN :hoy AND :ahora')->setParameter('hoy',date("Y-m-d 00:00"))->setParameter('ahora',date("Y-m-d h:m"));
+
+			$query = $qb->getQuery();
+			$montoTotal = $query->getSingleResult();
+			//$montoquery = $conn->fetchAll('SELECT SUM(co.monto_abonado) as sumaTotal FROM consumos_cliente co WHERE co.fecha  BETWEEN \''.date("Y-m-d 00:00").'\' AND \'' .date("Y-m-d ").'\';');
+
+			//$montoTotal = $montoquery[0]['sumaTotal'];
 	
-			$montoquery = $conn->fetchAll('SELECT SUM(co.monto_abonado) as sumaTotal FROM consumos_cliente co WHERE co.fecha ='.date("Y-m-d").';');
-			$montoTotal = $montoquery[0]['sumaTotal'];
-	
-			return $this->render(sprintf('ecotour/%s.html.twig',"informesClientesAtendidos"),array('consumos'=>$consumos,'montoTotal'=>$montoTotal));
+			return $this->render(sprintf('ecotour/%s.html.twig',"informesClientesAtendidos"),
+								array('consumos'=>$consumos,
+									  'montoTotal'=>$montoTotal));
 
 		}
 		else if($page == "reservasProgramadas"){
@@ -794,7 +815,7 @@ class DefaultController extends Controller
 			$respuesta= "ERROR";
 		}
 		else{
-			$tipoPago = $this->getDoctrine()->getRepository('AppBundle:Reserva')->find($id_tipopago);
+			$tipoPago = $this->getDoctrine()->getRepository('AppBundle:TipoPago')->find($id_tipopago);
 
 			$consumosCliente = new ConsumosCliente();
 			$consumosCliente->setCliente($reserva->getCliente());
@@ -804,7 +825,7 @@ class DefaultController extends Controller
 			$consumosCliente->setTipoPago($tipoPago);
 			$consumosCliente->setFecha(new \DateTime(date("Y-m-d H:i:s")));
 
-			$em->persist($consumo);
+			$em->persist($consumosCliente);
 
 			$em->flush();
 
