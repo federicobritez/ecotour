@@ -9,16 +9,22 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Lista de Clientes </h3>
+                <h3>Clientes</h3>
               </div>
-            </div>
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                <button class="btn btn-info btn-block"  onclick="jQuery('#dvToPrint').print()" ><i class="fa fa-print"></i> Imprimir </button>
+                </div>
+              </div>
+             </div>
 
             <div class="clearfix"></div>
 
             <div class="row">
 
               <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
+                <div class="x_panel" id="dvToPrint">
+                <h3 id ="mañana">Listado de Clientes</h3>
                   <div class="x_title">
                     <div class="clearfix"></div>
                   </div>
@@ -48,7 +54,7 @@
                           <td>{{item.ciudad}} - {{item.provincia}}</td>
                           <td class=" last">
 
-                        <div class="btn-group  btn-group-sm">
+                        <div class="btn-group  btn-group-sm no-print" >
                           <a class="btn btn-default" type="button" data-toggle="tooltip" data-placement="top" title="Informacion Consumos" href=""><i class="fa fa-info-circle"></i></a>
 
                           <a class="btn btn-default" type="button" data-toggle="tooltip" data-placement="top" title="Facturar Consumos" href="{{ path('pagos_page', {'page': 'ingresar'}) }}?id={{item.id}}"><i class="fa fa-usd"></i></a>
@@ -110,7 +116,8 @@
     <script src="{{ asset('assets/vendors/datatables.net-scroller/js/datatables.scroller.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jszip/dist/jszip.min.js') }}"></script>
 
-  
+    <!-- jQueryPrint -->
+    <script src="{{ asset('assets/js/jquery-print/jQuery.print.js') }}"></script>  
 
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('assets/js/custom.min.js') }}"></script>
