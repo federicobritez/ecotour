@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block title %} ECO TOUR! | {% endblock %}</title>
+    <title>{% block title %} EcoTour-Software de Hoteleria Rural {% endblock %}</title>
 
     <!-- Bootstrap -->
     <link href="{{ asset('assets/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -48,7 +48,7 @@
               </div>
               <div class="profile_info">
                 <span>Bienvenido,</span>
-                <h2>Usuario</h2>
+                <h2>Admin</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -103,7 +103,7 @@
               <a data-toggle="tooltip" data-placement="top" title="Configuraciones" href="{{ path('servicios_page', {'page': 'configuracion'}) }}">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top" title="Ayuda">
+              <a data-toggle="tooltip" data-placement="top" target="_blank" href="{{ path('ayuda_page', {'page': 'index'}) }}" title="Ayuda">
                 <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
               </a>
               <a data-toggle="tooltip" data-placement="top" title="Acerca de la App " href="{{ path('servicios_page', {'page': 'configuracion'}) }}">

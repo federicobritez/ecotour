@@ -58,7 +58,7 @@
                         -->
                       </ul>
           
-          <form id="form_reserva" action="{{ path('reservas_page', {'page': 'finalizar'}) }}" method="post" novalidate>           
+          <form id="form_reserva" class="x_content" action="{{ path('reservas_page', {'page': 'finalizar'}) }}" method="post" novalidate>           
           <div id="step-1">
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="x_panel">
@@ -91,127 +91,130 @@
 						  </div>
 					  </div>
 
-					
+					 <div class="col-md-12 col-sm-12 col-xs-12">
+           <div class="x_panel">
 					  <div class="form-horizontal form-label-left" id="nuevo_cliente_div" novalidate>  
-            <div class="item form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12">Nombres <span class="required">*</span></label>
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <input id="nombre" type="text" data-validate-length-range="2" data-validate-words="1" required="required" class="form-control col-md-7 col-xs-12" name="nombre"/>
-              </div>
-            </div>
+                  <div class="item form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Nombres <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input id="nombre" type="text" data-validate-length-range="2" data-validate-words="1" required="required" class="form-control col-md-7 col-xs-12" name="nombre"/>
+                    </div>
+                  </div>
 
-            <div class="item form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name" >Apellido<span class="required">*</span></label>
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" id="apellido" data-validate-length-range="3" data-validate-words="1" required="required"  class="form-control col-md-7 col-xs-12" name="apellido"/>
-              </div>
-            </div>
+                <div class="item form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name" >Apellido<span class="required">*</span></label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="apellido" data-validate-length-range="3" data-validate-words="1" required="required"  class="form-control col-md-7 col-xs-12" name="apellido"/>
+                  </div>
+                </div>
 
-            <div class="item form-group">
-              <label for="dni" class="control-label col-md-3 col-sm-3 col-xs-12" >DNI/CI</label>
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <input id="dni" data-validate-minmax="100000,99000000" required="required" class="form-control col-md-7 col-xs-12" type="number" name="dni">
-              </div>
-            </div>
+                <div class="item form-group">
+                  <label for="dni" class="control-label col-md-3 col-sm-3 col-xs-12" >DNI/CI</label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input id="dni" data-validate-minmax="100000,99000000" required="required" class="form-control col-md-7 col-xs-12" type="number" name="dni">
+                  </div>
+                </div>
 
-            <div class="item form-group">
-              <label for="telefon1" class="control-label col-md-3 col-sm-3 col-xs-12" name="tel">Telefono1</label>
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <input id="telefono1" data-validate-length-range="8,20" class="form-control col-md-7 col-xs-12" type="phone" name=" telefono1">
-              </div>
-            </div>
+                <div class="item form-group">
+                  <label for="telefon1" class="control-label col-md-3 col-sm-3 col-xs-12" name="tel">Telefono1</label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input id="telefono1" data-validate-length-range="8,20" class="form-control col-md-7 col-xs-12" type="phone" name=" telefono1">
+                  </div>
+                </div>
 
-            <div class="item form-group">
-              <label for="telefon1" class="control-label col-md-3 col-sm-3 col-xs-12" name="tel2">Telefono2</label>
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <input id="telefono2" data-validate-length-range="8,20" class="form-control col-md-7 col-xs-12" type="phone" name="telefono2">
-              </div>
-            </div>
+                <div class="item form-group">
+                  <label for="telefon1" class="control-label col-md-3 col-sm-3 col-xs-12" name="tel2">Telefono2</label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input id="telefono2" data-validate-length-range="8,20" class="form-control col-md-7 col-xs-12" type="phone" name="telefono2">
+                  </div>
+                </div>
 
-            <div class="item form-group">
-              <label for="telefon1" class="control-label col-md-3 col-sm-3 col-xs-12" name="correo1">CorreoElectronico</label>
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <input id="middle-name" class="form-control col-md-7 col-xs-12 optional" type="email" name="correo">
-              </div>
-            </div>
+                <div class="item form-group">
+                  <label for="telefon1" class="control-label col-md-3 col-sm-3 col-xs-12" name="correo1">CorreoElectronico</label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input id="middle-name" class="form-control col-md-7 col-xs-12 optional" type="email" name="correo">
+                  </div>
+                </div>
 
-            <div class="item form-group">
-              <label for="pais" class="control-label col-md-3 col-sm-3 col-xs-12" name="pais-label">Pais</label>
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <select class="form-control has-feedback-left required" placeholder="País" name="pais">
-                  <option selected value="">País</option>
-                  <option value="AR">Argentina</option> 
-                  <option value="BR">Brazil</option> 
-                  <option value="BL">Bolivia</option> 
-                  <option value="CH">Chile</option>
-                  <option value="PA">Paraguay</option> 
-                  <option value="UR">Uruguay</option> 
-                  <option value="UR">Uruguay</option> 
-                </select>
-              </div>   
-            </div>
+                <div class="item form-group">
+                  <label for="pais" class="control-label col-md-3 col-sm-3 col-xs-12" name="pais-label">Pais</label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select class="form-control has-feedback-left required" placeholder="País" name="pais">
+                      <option selected value="">País</option>
+                      <option value="AR">Argentina</option> 
+                      <option value="BR">Brazil</option> 
+                      <option value="BL">Bolivia</option> 
+                      <option value="CH">Chile</option>
+                      <option value="PA">Paraguay</option> 
+                      <option value="UR">Uruguay</option> 
+                      <option value="UR">Uruguay</option> 
+                    </select>
+                  </div>   
+                </div>
 
-            <div class="item form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12">Provincia</label>
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <select class="form-control has-feedback-left required" placeholder="Provincia" name="provincia">
-                   <option value="">Provincia</option> 
-                   <option value="Buenos Aires">Buenos Aires</option> 
-                   <option value="Catamarca">Catamarca</option> 
-                   <option value="Chaco">Chaco</option> 
-                   <option value="Chubut">Chubut</option> 
-                   <option value="Corrientes">Corrientes</option> 
-                   <option value="Cordoba">Córdoba</option> 
-                   <option value="Distrito Federal">Distrito Federal</option> 
-                   <option value="Entre Rios">Entre Ríos</option> 
-                   <option value="Formosa">Formosa</option> 
-                   <option value="Jujuy">Jujuy</option> 
-                   <option value="La Pampa">La Pampa</option> 
-                   <option value="La Rioja">La Rioja</option> 
-                   <option value="Mendoza">Mendoza</option> 
-                   <option value="Misiones">Misiones</option> 
-                   <option value="Neuquen">Neuquen</option> 
-                   <option value="Rio Negro">Río Negro</option> 
-                   <option value="Salta">Salta</option> 
-                   <option value="San Juan">San Juan</option> 
-                   <option value="San Luis">San Luis</option> 
-                   <option value="Santa Cruz">Santa Cruz</option> 
-                   <option value="Santa Fe">Santa Fe</option> 
-                   <option value="Santiago del Estero">Santiago del Estero</option> 
-                   <option value="Tierra del Fuego">Tierra del Fuego</option> 
-                   <option value="Tucuman">Tucumán</option> 
-                </select>
-              </div>
-            </div>
+                <div class="item form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Provincia</label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select class="form-control has-feedback-left required" placeholder="Provincia" name="provincia">
+                       <option value="">Provincia</option> 
+                       <option value="Buenos Aires">Buenos Aires</option> 
+                       <option value="Catamarca">Catamarca</option> 
+                       <option value="Chaco">Chaco</option> 
+                       <option value="Chubut">Chubut</option> 
+                       <option value="Corrientes">Corrientes</option> 
+                       <option value="Cordoba">Córdoba</option> 
+                       <option value="Distrito Federal">Distrito Federal</option> 
+                       <option value="Entre Rios">Entre Ríos</option> 
+                       <option value="Formosa">Formosa</option> 
+                       <option value="Jujuy">Jujuy</option> 
+                       <option value="La Pampa">La Pampa</option> 
+                       <option value="La Rioja">La Rioja</option> 
+                       <option value="Mendoza">Mendoza</option> 
+                       <option value="Misiones">Misiones</option> 
+                       <option value="Neuquen">Neuquen</option> 
+                       <option value="Rio Negro">Río Negro</option> 
+                       <option value="Salta">Salta</option> 
+                       <option value="San Juan">San Juan</option> 
+                       <option value="San Luis">San Luis</option> 
+                       <option value="Santa Cruz">Santa Cruz</option> 
+                       <option value="Santa Fe">Santa Fe</option> 
+                       <option value="Santiago del Estero">Santiago del Estero</option> 
+                       <option value="Tierra del Fuego">Tierra del Fuego</option> 
+                       <option value="Tucuman">Tucumán</option> 
+                    </select>
+                  </div>
+                </div>
 
-            <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12">Localidad</label>
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <select class="form-control has-feedback-left" placeholder="Ciudad" name="ciudad">
-                  <option value="*">Ciudad</option>
-                    <option>Avia Terai</option>
-                    <option>Charata</option>
-                    <option>El Sauzalito</option>
-                    <option>Fuerte Esperanza</option>
-                    <option>Gancedo</option>
-                    <option>General Pinedo</option>
-                    <option>General San Martin</option>
-                    <option>General Vedia</option>
-                    <option>Hermoso Campo</option>
-                    <option>Isla del Cerrito</option>
-                    <option>Juan Jose Castelli</option>
-                    <option>Las Breñas</option>
-                    <option>Machagai</option>
-                    <option>Mision Nueva Pompeya</option>
-                    <option>Pampa del Indio</option>
-                    <option>Puerto Tirol</option>
-                    <option>Resistencia</option>
-                    <option>Roque Saenz Peña</option>
-                    <option>Villa Angela</option>
-                    <option>Villa Rio Bermejito</option>
-                </select>
-              </div>
-            </div>	  
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Localidad</label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select class="form-control has-feedback-left" placeholder="Ciudad" name="ciudad">
+                      <option value="*">Ciudad</option>
+                        <option>Avia Terai</option>
+                        <option>Charata</option>
+                        <option>El Sauzalito</option>
+                        <option>Fuerte Esperanza</option>
+                        <option>Gancedo</option>
+                        <option>General Pinedo</option>
+                        <option>General San Martin</option>
+                        <option>General Vedia</option>
+                        <option>Hermoso Campo</option>
+                        <option>Isla del Cerrito</option>
+                        <option>Juan Jose Castelli</option>
+                        <option>Las Breñas</option>
+                        <option>Machagai</option>
+                        <option>Mision Nueva Pompeya</option>
+                        <option>Pampa del Indio</option>
+                        <option>Puerto Tirol</option>
+                        <option>Resistencia</option>
+                        <option>Roque Saenz Peña</option>
+                        <option>Villa Angela</option>
+                        <option>Villa Rio Bermejito</option>
+                    </select>
+                  </div>
+                </div>	  
+            </div>
+            </div>
             </div>
           </div> <!-- Fin Step 1-->
           <!-- Step 2-->                        

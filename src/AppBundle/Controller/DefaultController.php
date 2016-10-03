@@ -669,6 +669,24 @@ WHERE sm.reserva_id IS NULL ;
 	}
  }
  
+
+
+ /**
+  * Render Ayuda page
+  *
+  * @Route("/Ayuda/{page}", name="ayuda_page", defaults={"page" = "index"})
+  *
+  * @param Request $request
+  * @param string  $page    Page name
+  *
+  * @return Response
+  */
+
+ public function ayudaAction(Request $request, $page = 'index'){
+
+ 	return $this->render(sprintf('ecotour/%s.html.twig',"ayudaIndex"),array('var' => "1"));
+
+ }
  
  /**
   * Render Debug page
