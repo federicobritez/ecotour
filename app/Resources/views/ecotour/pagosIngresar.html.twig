@@ -44,7 +44,7 @@
                           <th scope="row" id="servicio">{{ item.servicio.nombre }}</th>
                           <td id="fechaReserva">{{ item.fechaDesde.date|date("d/m/Y h:m") }}</td>
                           <td id="cantPersonas">{{ item.cantPersonas }}</td>
-                          <td id="valorTotal">${{ item.valorTotal|number_format(2, ',', '.') }}</td>
+                          <td >${{ item.valorTotal|number_format(2, ',', '.') }} <input type="hidden" value="{{item.valorTotal}}" id="valorTotal"></td>
                           <td>
                             <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onClick="setInfoReserva(this)" id="{{item.id}}">Acción
@@ -206,10 +206,6 @@
           console.debug("Interes de tipo de pago:"+cuota_interes[0]);
 
           var total_calculado = $('#monto_reserva').val();
-          
-
-          total_calculado = total_calculado.slice(1);
-          total_calculado = total_calculado.replace(',','.');
 
           console.debug("total:"+total_calculado);
           var interes = (100+ eval(cuota_interes[0]))/100;
@@ -229,7 +225,7 @@
         var id_reserva = o.id;
         $("#id_reserva_select").val(id_reserva);
         var fecha =   $("#tr_"+ id_reserva).find('td#fechaReserva').html();
-        var monto =   $("#tr_"+ id_reserva).find('td#valorTotal').html();
+        var monto =   $("#tr_"+ id_reserva).find('input#valorTotal').val();
         var servicio = $("#tr_"+ id_reserva).find('th#servicio').html();
         {% autoescape false %}
         var nombre = "{{cliente.apellido}}" + " " + "{{cliente.nombre}}";

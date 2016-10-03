@@ -70,10 +70,10 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-sm-4 invoice-col">
-                          <b>Factura FACTURACION_ID</b>
+                          <b>Factura {{serverTime.date|date("dmY")}}-{{serverTime.date|date("hm")}}</b>
                           <br>
                           <br>
-                          <b>Orden ID:</b> 4F3S8J
+                          <b>Orden ID:</b> {{cliente.id}}-{{reserva.id}}
                           <br>
                           <b>Fecha de pago:</b> {{ serverTime.date|date("d/m/Y") }}
                         </div>
@@ -113,11 +113,11 @@
                         <!-- accepted payments column -->
                         <div class="col-xs-6">
                           <p class="lead">Métodos de pago: <small>{{tipoPago.descripcion}}</small></p>
-                          <p class="lead">Interes generado: <small>% {{tipoPago.interes}}</small></p>
+                          <p class="lead"> % Interes generado: <small>% {{tipoPago.interes}}</small></p>
                         </div>
                         <!-- /.col -->
                         <div class="col-xs-6">
-                          <p class="lead">Total a pagar SERVER_DATE</p>
+                          <p class="lead">Total a pagar al <small>{{serverTime.date|date("d/m/Y")}}</small></p>
                           <div class="table-responsive">
                             <table class="table">
                               <tbody>

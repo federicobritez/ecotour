@@ -42,6 +42,11 @@ class ConsumosCliente
      */
     private $cliente;
 
+    /**
+     * @var \AppBundle\Entity\Reserva
+     */
+    private $reserva;
+
 
     /**
      * Set montoAbonado
@@ -195,6 +200,30 @@ class ConsumosCliente
     public function getCliente()
     {
         return $this->cliente;
+    }
+
+    /**
+     * Set reserva
+     *
+     * @param \AppBundle\Entity\Reserva $reserva
+     *
+     * @return ConsumosCliente
+     */
+    public function setReserva(\AppBundle\Entity\Reserva $reserva = null)
+    {
+        $this->reserva = $reserva;
+
+        return $this;
+    }
+
+    /**
+     * Get reserva
+     *
+     * @return \AppBundle\Entity\Reserva
+     */
+    public function getReserva()
+    {
+        return $this->reserva;
     }
 }
 

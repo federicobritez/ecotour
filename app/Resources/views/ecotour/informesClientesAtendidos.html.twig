@@ -66,7 +66,8 @@
                             {% if i is divisible by (2) %} <tr class="even pointer"> {% else %} <tr class="odd pointer"> {% endif %}
                             <td class=" ">{{reserva.cliente.apellido}} {{reserva.cliente.nombre}}</td>
                             <td class=" ">{{reserva.cliente.dni}}</td>
-                            <td class="a-right a-right ">$ {{reserva.montoAbonado|number_format(2, ',', '.')}}</td>
+                           
+                            <td class="a-right a-right ">$ {{reserva.montoAbonado}} </td>
                             <td class="a-right a-right "> {{reserva.tipoPago.descripcion}}</td>
                           </tr>
                             {% set i = i +1 %}
@@ -75,7 +76,7 @@
                         </tbody>
                       </table>
                     </div>
-                    <h4 class="nav navbar-right ">Total Servicio: $ {{sumConsumos|number_format(2, ',', '.')}} </h4 >
+                    <h4 class="nav navbar-right ">Total Servicio: $ {{sumConsumos}} </h4 >
                   </div>
                 </div>
               </div>

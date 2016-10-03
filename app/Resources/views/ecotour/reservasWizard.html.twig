@@ -80,7 +80,7 @@
                       <input type="text" name="cliente_registrado" id="autocomplete-custom-append" class="form-control col-md-10" style="float: left;" />
                         <div id="autocomplete-container" style="position: relative; float: left; width: 400px; margin: 10px;"></div>
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                          <input type="hidden" id="nuevoCliente"  name="origenCliente" value="">
+                          <input type="hidden" id="nuevoCliente"  name="origenCliente" value="nuevo">
                           <a type="btn btn-default submit" href="{{ path('reservas_page', {'page': 'nueva'}) }}" class="btn btn-primary">Nuevo</a>
                           <button type="button" class="btn btn-default"onclick="setOrigenDatosCliente()" >Usar</button>
                         </div>
@@ -96,7 +96,7 @@
             <div class="item form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Nombres <span class="required">*</span></label>
               <div class="col-md-6 col-sm-6 col-xs-12">
-                <input id="nombre" type="text" data-validate-length-range="2" data-validate-words="2" required="required" class="form-control col-md-7 col-xs-12" name="nombre"/>
+                <input id="nombre" type="text" data-validate-length-range="2" data-validate-words="1" required="required" class="form-control col-md-7 col-xs-12" name="nombre"/>
               </div>
             </div>
 
@@ -712,6 +712,8 @@
         $('.buttonFinish').addClass('btn btn-default');
 
       function configServicios(obj, context){
+
+          console.debug($("input[id=nuevoCliente]").val());
      
           var servicios = $('input[name="servicios[]"]').map(function () {
               return this.value;

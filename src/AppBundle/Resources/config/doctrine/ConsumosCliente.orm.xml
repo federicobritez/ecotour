@@ -5,6 +5,7 @@
       <index name="fk_consumos_serv_otros_servicio1_idx" columns="servicio_id"/>
       <index name="fk_consumos_serv_otros_cliente1_idx" columns="cliente_id"/>
       <index name="fk_consumos_serv_otros_tipo_pago1_idx" columns="tipo_pago_id"/>
+      <index name="fk_consumos_cliente_reserva1_idx" columns="reserva_id"/>
     </indexes>
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
@@ -25,6 +26,11 @@
     <many-to-one field="cliente" target-entity="Cliente" fetch="LAZY">
       <join-columns>
         <join-column name="cliente_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="reserva" target-entity="Reserva" fetch="LAZY">
+      <join-columns>
+        <join-column name="reserva_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
   </entity>

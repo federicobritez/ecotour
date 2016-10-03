@@ -133,8 +133,8 @@ class DefaultController extends Controller
 							array('reservas' => $reservas,
 								  'estadoReserva' => $estado_reserva ));
 
-  }
-  else if($page == "nueva"){
+  	}
+  	else if($page == "nueva"){
 
 		/*	 Consulta de Todos los Servicios Activos				*/
 
@@ -186,6 +186,10 @@ class DefaultController extends Controller
 		
 	}
 	else if( $page == "finalizar"){
+
+
+		$em = $this->getDoctrine()->getManager();
+
 		$cliente = null;  // El cliente que hace la reserva
 		
 		if($request->request->get('origenCliente') == "registrado"){
@@ -201,11 +205,10 @@ class DefaultController extends Controller
 			if(!$cliente){	} //MUESTRO PANTALLA DE ERROR
 
 		}
-		else if ($request->request->has('nuevoCliente')){
-				$em = $this->getDoctrine()->getManager();
-
+		else if ($request->get('origenCliente') == "nuevo"){
+				
 				$cliente  = new Cliente();
-				$cliente->setNombre($request->request->get('nombres'));
+				$cliente->setNombre($request->request->get('nombre'));
 				$cliente->setApellido($request->request->get('apellido'));
 				$cliente->setTelefono1($request->request->get('telefono1'));
 				$cliente->setTelefono2($request->request->get('telefono2'));
@@ -229,8 +232,9 @@ class DefaultController extends Controller
 		}
 
 		/*	Servicios Activos */
+		$totalValorReservas = 0;
 
-		foreach($request->get('servicios') as $idServ){
+		foreach($request->request->get('servicios') as $idServ){
 	
 			$servicio = $this->getDoctrine()->getRepository('AppBundle:Servicio')->find($idServ);
 
@@ -249,6 +253,13 @@ class DefaultController extends Controller
 			$reserva->setCantPersonas($cant);
 			$reserva->setServicio($servicio);
 
+			$valorReserva = $this->calcularValorReserva($reserva);
+			$reserva->setValorTotal($valorReserva);
+
+			$totalValorReservas += $valorReserva;
+			
+
+			/* Seteamos el estado por default que es Esperando Confirmacion*/
 			$estadoReserva = $this->getDoctrine()->getRepository('AppBundle:EstadoReserva')->find(3);
 			$reserva->setEstadoReserva($estadoReserva);
 	
@@ -264,11 +275,11 @@ class DefaultController extends Controller
 			}
 
 			if($horario != null){
-				$horario_reserva = new HorariosReserva();
-				$horario_reserva->setReserva($reserva);
-				$horario_reserva->setHorariosServicio($horario);
+				$horarios_reserva = new HorariosReserva();
+				$horarios_reserva->setReserva($reserva);
+				$horarios_reserva->setHorariosServicio($horario);
 				
-				$em->persist($horario_reserva);
+				$em->persist($horarios_reserva);
 				$em->flush();		
 			}
 
@@ -290,8 +301,10 @@ class DefaultController extends Controller
 			}
 		}
 
+
+
 		return $this->render(sprintf('ecotour/%s.html.twig', "reservasFinalizar"),
-									array('request' => $request));
+									array('totalValorReservas' => $totalValorReservas));
 	} //endif finalizar
 	else if ($page  == "editar"){
 		$idReserva = $reques->get('idReserva');
@@ -313,6 +326,26 @@ class DefaultController extends Controller
  }
 
 
+ public function calcularValorReserva($reserva){
+
+ 	/*El valor se calcula:
+		Total = ((V.unitarioServicio)*CantPersonasReserva)*Cantidad de Dias  
+ 	*/
+	if( $reserva == null){
+		return -1;
+	}
+
+	//Cantidad de dias :
+	$intervalo = $reserva->getFechaDesde()->diff($reserva->getFechaHasta());
+
+	$dias = intval($intervalo->format('%R%a'))+1; //Sumamos un dia mas porque 
+
+	$precioUnitario = $reserva->getServicio()->getValorUnitario();
+	$cantPersonas = $reserva->getCantPersonas();
+
+	return $precioUnitario*$dias*$cantPersonas;
+
+ }
 
  /**
   * Render Informes page
@@ -467,6 +500,13 @@ class DefaultController extends Controller
 									array('cliente' => $cliente));
 
 	}
+	else if($page == "nuevo"){
+
+		$cliente = new Cliente();
+		return $this->render(sprintf('ecotour/%s',"clientesEditar.html.twig"),
+									array('cliente' => $cliente));
+
+	}
 
  }
 
@@ -491,15 +531,27 @@ class DefaultController extends Controller
 		/*  Listado de Servicios No Reservables	   */
 		$query = $em->createQuery('SELECT tp FROM AppBundle:TipoPago tp');
 		$tipo_pago = $query->getResult(); 
-			
+		/*
+		SELECT rr.*
+FROM ecoturismo.reserva rr
+LEFT JOIN ecoturismo.consumos_cliente sm ON rr.id = sm.reserva_id
+WHERE sm.reserva_id IS NULL ;
+	*/
+
+		// Reservas no abonados por el cliente- No esta en ConsumoCliente
+		$qb = $em->createQueryBuilder();
+		$qb->select('rr')->from('AppBundle:Reserva', 'rr')->leftJoin('AppBundle:ConsumosCliente', 'cc','WITH','rr.id = cc.reserva')->andWhere("cc.reserva IS NULL")->andWhere("rr.cliente=:idcliente")->setParameter("idcliente",$cliente->getId());
+
+		$reservasCliente = $qb->getQuery()->getResult();
+
+		/*
 		$reservasCliente = $this->getDoctrine()->
 											getRepository('AppBundle:Reserva')->
 													findBy(array('cliente'=> $cliente));
+		*/
 
-
-		
 		return $this->render(sprintf('ecotour/%s.html.twig',"pagosIngresar"),
-									array('request' => $request,
+									array('request' => $query,
 											'reservas'=> $reservasCliente,
 											'cliente' => $cliente,
 											'tipo_pago' => $tipo_pago));
@@ -533,7 +585,7 @@ class DefaultController extends Controller
 			$tipoPago = $em->getRepository('AppBundle:TipoPago')->find($idTipoPago);
 
 			$saldo =  array();
-			$saldo["subtotal"] =$reserva->getCantPersonas() * $reserva->getServicio()->getValorUnitario();
+			$saldo["subtotal"] = $this->calcularValorReserva($reserva);
 
 			$interes = ($tipoPago->getInteres()/100)* $saldo["subtotal"];
 				
@@ -742,7 +794,7 @@ class DefaultController extends Controller
   * @return Response
   */
 
-  public function ajaxEdigarClienteAction(Request $request){
+  public function ajaxEditarClienteAction(Request $request){
 
   		$em = $this->getDoctrine()->getManager();			
 
@@ -760,7 +812,14 @@ class DefaultController extends Controller
 		
 		$respuesta="";
 
-		$cliente = $this->getDoctrine()->getRepository('AppBundle:Cliente')->find($idCliente);
+		if($idCliente == null ){
+			$cliente = new Cliente();
+		}
+		else{
+			$cliente = $this->getDoctrine()->getRepository('AppBundle:Cliente')->find($idCliente);	
+		}
+
+		
 		
 		if($cliente == null){
 			$respuesta= "ERROR";
@@ -824,6 +883,7 @@ class DefaultController extends Controller
 			$consumosCliente->setSaldo($montoTotal-$monto_abonado);
 			$consumosCliente->setTipoPago($tipoPago);
 			$consumosCliente->setFecha(new \DateTime(date("Y-m-d H:i:s")));
+			$consumosCliente->setReserva($reserva);
 
 			$em->persist($consumosCliente);
 
