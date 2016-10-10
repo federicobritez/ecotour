@@ -30,6 +30,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 
 
 use AppBundle\Entity\Cliente;
@@ -46,20 +48,31 @@ class DefaultController extends Controller
  /**
   * Render EcoTourApp page.
   *
-  * @Route("/index", name="login_page" )
+  * @Route("/index", name="login_page" , defaults={"page"="listado"})
   *
   * @param Request $request
   *
   *
   * @return Response
   */
-  public function indexAction(Request $request)
+  public function indexAction(Request $request, $page="login")
   {
-	
 
-	$conn = $this->get('database_connection');
-	$users = $conn->fetchAll('SELECT * FROM usuario');
-	return $this->render(sprintf('ecotour/%s.html.twig', "login"),array('usuarios' => $users ));
+  	if($page == "login"){
+  		if($this->get('session') == null){
+  			$session = new Session();
+  			$session->start();
+  		}
+  	}
+  	elseif($page == "logout"){
+
+  		$session = $this->get('session');
+  		if($session != null){
+  			$session->invalidate();
+  		}
+  	}
+
+	return $this->render(sprintf('ecotour/%s.html.twig', "login"));
   }
 	
 	
@@ -75,9 +88,30 @@ class DefaultController extends Controller
   * @return Response
   */
   public function verifacarLogin(Request $request){
-	$conn = $this->get('database_connection');
-	$users = $conn->fetchAll('SELECT * FROM usuario');
-	return $this->render(sprintf('ecotour/%s.html.twig', "home"),array('usuarios' => $users ));
+
+  	$em = $this->getDoctrine()->getManager();
+	$nombre = $request->get('usuario');
+	$pass = $request->get('psw');
+
+	$user = $em->getRepository('AppBundle:Usuario')->findOneBy(array('usuario'=>$nombre));
+
+	if($user != null ){
+
+		if($user->getClave() == $pass){
+
+			$this->get('session')->set('usuario_nombre', $user->getUsuario());
+			$this->get('session')->set('usuario_template', $user->getPerfil()->getVista()->getNombrePlantilla());
+
+			$cliente = $user->getCliente();
+			if($cliente != null){
+				$this->get('session')->set('cliente_nombre', $cliente->getNombre());
+			}
+
+			return $this->redirectToRoute('informes_page');
+		}		
+	}
+	
+	return $this->render(sprintf('ecotour/%s.html.twig', "login"));	
   }
   
   
@@ -94,9 +128,9 @@ class DefaultController extends Controller
   */
   public function homeAction(Request $request)
   {
-  	$conn = $this->get('database_connection');
-  	$users = $conn->fetchAll('SELECT * FROM usuario');
-  	return $this->render(sprintf('ecotour/%s.html.twig', "home"),array('usuarios' => $users ));
+
+  	return $this->redirectToRoute('clientesAtendidos');
+
   }
 
 
@@ -113,7 +147,7 @@ class DefaultController extends Controller
   */
  public function reservasAction(Request $request, $page= 'listado')
  {
- 	$conn = $this->get('database_connection');
+ 	
 	$em = $this->getDoctrine()->getManager();
 
 	if($page == "listado"){
@@ -122,11 +156,9 @@ class DefaultController extends Controller
 			Consulta de Todas las Reservas
 		*/
 
-  		$query = $em->createQuery('SELECT r FROM AppBundle:Reserva r ORDER BY r.fechaReserva DESC');
-  		$reservas = $query->getResult();
+  		$reservas = $em->createQuery('SELECT r FROM AppBundle:Reserva r ORDER BY r.fechaReserva DESC')->getResult();
 
-  		$query = $em->createQuery('SELECT er FROM AppBundle:EstadoReserva er');
-  		$estado_reserva = $query->getResult();
+  		$estado_reserva = $em->createQuery('SELECT er FROM AppBundle:EstadoReserva er')->getResult();
 
 
 		return $this->render(sprintf('ecotour/%s.html.twig', "reservasListado"),
@@ -163,8 +195,7 @@ class DefaultController extends Controller
 		$habitaciones = $query->getResult(); // array de Objetos Habitacion
 		
 		
-		/*		Plazas vacantes por servicio  */
-		
+		/*		Plazas vacantes por servicio  */		
 
 		/* Horarios*/
 
@@ -187,22 +218,19 @@ class DefaultController extends Controller
 	}
 	else if( $page == "finalizar"){
 
-
-		$em = $this->getDoctrine()->getManager();
-
 		$cliente = null;  // El cliente que hace la reserva
 		
 		if($request->request->get('origenCliente') == "registrado"){
 			
 			$arrCliente = explode("|",$request->get('cliente_registrado')); 		// cliente : ApallidoNombre|ID
 
-			if(!is_numeric($arrCliente[1])){ }	//MUESTRO PANTALLA DE ERROR
+			if(!is_numeric($arrCliente[1])){ }	//TODO PANTALLA DE ERROR
 
 			$idCliente = $arrCliente[1];
 			
 			$cliente = $this->getDoctrine()->getRepository('AppBundle:Cliente')->find($idCliente);
 
-			if(!$cliente){	} //MUESTRO PANTALLA DE ERROR
+			if(!$cliente){	} //TODO PANTALLA DE ERROR
 
 		}
 		else if ($request->get('origenCliente') == "nuevo"){
@@ -283,8 +311,6 @@ class DefaultController extends Controller
 				$em->flush();		
 			}
 
-
-
 			/* Habitaciones de la posada*/
 			if($idServ == 2){
 				foreach($request->request->get('habitaciones') as $idHabit){
@@ -300,8 +326,6 @@ class DefaultController extends Controller
 				}
 			}
 		}
-
-
 
 		return $this->render(sprintf('ecotour/%s.html.twig', "reservasFinalizar"),
 									array('totalValorReservas' => $totalValorReservas));
@@ -347,6 +371,7 @@ class DefaultController extends Controller
 
  }
 
+
  /**
   * Render Informes page
   *
@@ -360,7 +385,6 @@ class DefaultController extends Controller
 
   public function informesAction(Request $request, $page = 'clientesAtendidos')
   {
-  		$conn = $this->get('database_connection');
 		$em = $this->getDoctrine()->getManager();
 
 		if($page == "clientesAtendidos"){
@@ -372,8 +396,6 @@ class DefaultController extends Controller
 			/*  Listado de Consumos del día 			   */
 	
 			//$query = $em->createQuery('SELECT co FROM AppBundle:ConsumosCliente co WHERE co.fecha ='.date("Y-m-d").' AND co.servicio = :servicio  ORDER BY co.fecha  ASC');
-
-
 
 			$query = $em->createQuery('SELECT co FROM AppBundle:ConsumosCliente co WHERE  co.servicio = :servicio  ORDER BY co.fecha  ASC');
 
@@ -409,14 +431,24 @@ class DefaultController extends Controller
 		}
 		else if($page == "reservasProgramadas"){
 
-			$queryReserv = $em->createQuery('SELECT re FROM AppBundle:Reserva re WHERE re.fechaDesde =\''.date("Y-m-d").'\' AND re.estadoReserva = :estado ORDER BY re.fechaDesde ASC');
+			$qb = $em->createQueryBuilder();
+			$tomorrow = new \DateTime('tomorrow');
+		
+			$tomorrow= $tomorrow->format("Y-m-d");
+			
+			$qb->select('re')->from('AppBundle:Reserva','re')->where('re.fechaDesde BETWEEN :hoy AND :maniana')->andWhere('re.estadoReserva = :estado')->setParameter('hoy',date("Y-m-d"))->setParameter('maniana',$tomorrow)->setParameter('estado',3);
+
+
+
+			//$queryReserv = $em->createQuery('SELECT re FROM AppBundle:Reserva re WHERE re.fechaDesde =\''.date("Y-m-d").'\' AND re.estadoReserva = :estado ORDER BY re.fechaDesde ASC');
+
 
 			$estadosValidos = array(1,3); //CONFIRAMADA y ESPERANDO_CONFIRMACION
 
-			$reservasProgramadas = array();
+			$reservasProgramadas = $qb->getQuery()->getResult();
 
-			$estadosRepo = $em->getRepository('AppBundle:EstadoReserva');
-
+			//$estadosRepo = $em->getRepository('AppBundle:EstadoReserva');
+			/*
 			foreach($estadosValidos as $idEstado){
 
 				$estadoReserva = $estadosRepo->find($idEstado);
@@ -425,9 +457,10 @@ class DefaultController extends Controller
 
 				$reservasProgramadas[$estadoReserva->getDescripcion()] =  $queryReserv->getResult();
 			}
+			*/
 
 			return $this->render(sprintf('ecotour/%s.html.twig',"informesReservasProgramadas"),
-										array('reservasProg' => $reservasProgramadas["ESPERANDO_CONFIRMACION"]));
+										array('reservasProg' => $reservasProgramadas));
 
 		}
 		elseif($page == "listaEspera"){
@@ -568,7 +601,7 @@ WHERE sm.reserva_id IS NULL ;
 									array('request' => $request,
 											'cliente' => $cliente,
 											'mercaderia'=> $mercaderia));
-		}
+	}
 	elseif($page == "ver_factura"){
 		$idReserva = $request->get("id_reserva");
 		$idTipoPago = $request->get("id_tipopago");
@@ -604,6 +637,7 @@ WHERE sm.reserva_id IS NULL ;
 		}
 	}
   }
+
 
  /**
   * Render Servicios page
@@ -698,11 +732,12 @@ WHERE sm.reserva_id IS NULL ;
   *
   * @return Response
   */
-	public function debugAction(Request $request, $page = 'debug'){
+
+ public function debugAction(Request $request, $page = 'debug'){
 		
 		return $this->render(sprintf('ecotour/%s.html.twig',"testValidator"));
 		
-	}
+ }
 
 
 /**
