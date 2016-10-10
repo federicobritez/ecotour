@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends app.session.get('usuario_template') %}
 {% block title %} {{ parent() }} {% endblock %}
 {% block sidebar %} {{ parent() }} {% endblock %}
 {% block topnav %} {{ parent() }} {% endblock %}
@@ -54,7 +54,7 @@
                             <ul class="dropdown-menu" role="menu" >
                               <li><a role= "menuitem" data-toggle="modal" data-target=".bs-example-modal-sm">Eliminar</a></li>
                               <li><a role="menuitem" data-toggle="modal" data-target=".bs-example2-modal-sm">Pagar</a></li>
-                              <li><a role="menuitem" href="{{ path('reservas_page', {'page': 'editar'}) }}id={{item.id}}">Editar</a></li>
+                              <li><a role="menuitem" href="{{ path('reservas_page', {'page': 'listado'}) }}?id={{cliente.id}}">Editar</a></li>
                             </ul>
                           </div>
                           </td>
@@ -118,7 +118,7 @@
                             {% endfor%}
                              </div>
                             <div>
-                             <h4>Total con Interes : <strong id="total_calculado"> </strong></h4>
+                             <h4>Total con Interes : $<strong id="total_calculado"> </strong></h4>
                             </div>
 
                         </div>

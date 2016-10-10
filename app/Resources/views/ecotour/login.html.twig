@@ -32,16 +32,16 @@
 
           <section class="login_content">
              <img align="center" height="200" width="320" src="{{ asset('assets/images/ac_logo_ve.png') }}">
-            <form>
+            <form  class="form-group"  action="{{ path('verif_login_page', {'page': ''}) }}" method="post" id="form_index">
               <h1>Ingreso</h1>
               <div>
-                <input type="text" class="form-control" placeholder="Usuario" required="" />
+                <input type="text" class="form-control" placeholder="Usuario" name="usuario" required="" />
               </div>
               <div>
-                <input type="password" class="form-control" placeholder="Clave" required="" />
+                <input type="password" class="form-control" placeholder="Clave" name="psw" required="" />
               </div>
               <div>
-                <a class="btn btn-default submit" href="{{ path('home_page', {'page': 'home'}) }}">Ingresar</a>
+                 <button type="button" class="btn btn-default submit" onclick="document.getElementById('form_index').submit();">Ingresar</button>
               </div>
 
               <div class="clearfix"></div>
@@ -52,7 +52,7 @@
                 </p>
 
 					 <p>
-					 </>
+					</p>
 
                 <div class="clearfix"></div>
                 <br />

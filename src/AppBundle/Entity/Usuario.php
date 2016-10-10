@@ -27,6 +27,11 @@ class Usuario
      */
     private $perfil;
 
+    /**
+     * @var \AppBundle\Entity\Cliente
+     */
+    private $cliente;
+
 
     /**
      * Set usuario
@@ -108,6 +113,30 @@ class Usuario
     public function getPerfil()
     {
         return $this->perfil;
+    }
+
+    /**
+     * Set cliente
+     *
+     * @param \AppBundle\Entity\Cliente $cliente
+     *
+     * @return Usuario
+     */
+    public function setCliente(\AppBundle\Entity\Cliente $cliente = null)
+    {
+        $this->cliente = $cliente;
+
+        return $this;
+    }
+
+    /**
+     * Get cliente
+     *
+     * @return \AppBundle\Entity\Cliente
+     */
+    public function getCliente()
+    {
+        return $this->cliente;
     }
 }
 

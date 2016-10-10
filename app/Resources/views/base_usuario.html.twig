@@ -1,4 +1,4 @@
-{# app/Resources/views/ecotour/base.html.twig #}
+{# app/Resources/views/ecotour/usuario.html.twig #}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -62,14 +62,14 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
 
-                  <li><a><i class="fa fa-edit"></i> Reservas <span class="fa fa-chevron-down"></span></a>
+                  <!--<li><a><i class="fa fa-edit"></i> Reservas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
 
                       <li><a href="{{ path('reservas_page', {'page': 'nueva'}) }}">Añadir reservas</a></li>
                       <li><a href="{{ path('reservas_page', {'page': 'listado'}) }}">Lista Reservas</a></li>
 
                     </ul>
-                  </li>
+                  </li>-->
 
                   <li><a><i class="fa fa-home"></i> Informes <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
@@ -86,13 +86,13 @@
                     </ul>
                   </li>
 
-                  <li><a><i class="fa fa-star-half-o"></i>Servicios <span class="fa fa-chevron-down"></span></a>
+                  <!--<li><a><i class="fa fa-star-half-o"></i>Servicios <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ path('servicios_page', {'page': 'listado'}) }}">Listar Servicios</a></li>
                       <li><a href="{{ path('servicios_page', {'page': 'configuracion'}) }}">Configurar Servicios</a></li>
                     </ul>
 
-                  </li>
+                  </li>-->
                 </ul>
               </div>
             {% endblock %}
@@ -135,7 +135,7 @@
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="{{ path('login_page', {'page': 'index'}) }}"><i class="fa fa-sign-out pull-right"></i> Salir</a></li>
+                    <li><a href="{{ path('login_page', {'page': 'logout'}) }}"><i class="fa fa-sign-out pull-right"></i> Salir</a></li>
                   </ul>
                 </li>
               </ul>

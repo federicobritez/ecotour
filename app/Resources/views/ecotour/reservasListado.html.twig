@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends app.session.get('usuario_template') %}
 {% block title %} {{ parent() }} {% endblock %}
 {% block sidebar %} {{ parent() }} {% endblock %}
 {% block topnav %} {{ parent() }} {% endblock %}
@@ -41,72 +41,76 @@
 
                       <tbody>
                 {% set id_item = 0 %}
+
 								{% for item in reservas %}
-                {% set id_item = id_item+1 %}								  
+
+                      {% set id_item = id_item+1 %}								  
                       <tr>
                           
                           <td>{{item.servicio.nombre}}</td>
-								          <td><button type="button" class="btn btn-link" data-toggle="modal" data-target=".modal-id-{{id_item}}"> {{item.cliente.apellido}}, {{item.cliente.nombre}} </button> 
-                          <div class="modal fade modal-id-{{id_item}}" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-sm">
-                      <div class="modal-content">
+								          <td><button type="button" class="btn btn-link" data-toggle="modal" data-target=".modal-id-{{id_item}}"> {{item.cliente.apellido}}, {{item.cliente.nombre}} </button>
 
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
-                          </button>
-                          <h3 class="modal-title" id="myModalLabel2">{{item.cliente.apellido}}, {{item.cliente.nombre}} </h3>
-                        </div>
-                        <div class="modal-body">
-                          <h4>Datos Cliente</h4>
-                         <table class="table table-bordered">
-                          <thead>
-                        <tr>
-                          <th></th>
-                          <th>Campo</th>
-                          <th>Valor</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row"></th>
-                          <td>DNI</td>
-                          <td>{{item.cliente.dni}}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row"></th>
-                          <td>Correo</td>
-                          <td>{{item.cliente.correo}}</td>                  
-                        </tr>                        
-                        <tr>
-                          <th scope="row"></th>
-                          <td>Telefono1</td>
-                          <td>{{item.cliente.telefono1}}</td>
-                          
-                        </tr>
-                        <tr>
-                          <th scope="row"></th>
-                          <td>Telefono2</td>
-                          <td>{{item.cliente.telefono2}}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row"></th>
-                          <td>Pais - Provicia</td>
-                          <td>{{item.cliente.pais}} - {{item.cliente.provincia}}</td>
-                          
-                        </tr>
-                        <tr>
-                          <th scope="row"></th>
-                          <td>Localidad</td>
-                          <td>{{item.cliente.ciudad}}</td>
-                          
-                        </tr>
-                      </tbody>
-                    </table>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                          <button type="button" class="btn btn-primary">EditarCliente</button>
-                        </div>
+
+                          <div class="modal fade modal-id-{{id_item}}" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                              <div class="modal-content">
+
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                  </button>
+                                  <h3 class="modal-title" id="myModalLabel2">{{item.cliente.apellido}}, {{item.cliente.nombre}} </h3>
+                                </div>
+                                <div class="modal-body">
+                                  <h4>Datos Cliente</h4>
+                                 <table class="table table-bordered">
+                                  <thead>
+                                <tr>
+                                  <th></th>
+                                  <th>Campo</th>
+                                  <th>Valor</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <th scope="row"></th>
+                                  <td>DNI</td>
+                                  <td>{{item.cliente.dni}}</td>
+                                </tr>
+                                <tr>
+                                  <th scope="row"></th>
+                                  <td>Correo</td>
+                                  <td>{{item.cliente.correo}}</td>                  
+                                </tr>                        
+                                <tr>
+                                  <th scope="row"></th>
+                                  <td>Telefono1</td>
+                                  <td>{{item.cliente.telefono1}}</td>
+                                  
+                                </tr>
+                                <tr>
+                                  <th scope="row"></th>
+                                  <td>Telefono2</td>
+                                  <td>{{item.cliente.telefono2}}</td>
+                                </tr>
+                                <tr>
+                                  <th scope="row"></th>
+                                  <td>Pais - Provicia</td>
+                                  <td>{{item.cliente.pais}} - {{item.cliente.provincia}}</td>
+                                  
+                                </tr>
+                                <tr>
+                                  <th scope="row"></th>
+                                  <td>Localidad</td>
+                                  <td>{{item.cliente.ciudad}}</td>
+                                  
+                                </tr>
+                              </tbody>
+                            </table>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                  <a type="button" class="btn btn-primary" href="{{ path('clientes_page', {'page': 'editar'}) }}?id={{item.id}}">EditarCliente</a>
+                                </div>
 
                       </div>
                     </div>

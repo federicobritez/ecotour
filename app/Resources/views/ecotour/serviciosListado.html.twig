@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends app.session.get('usuario_template') %}
 {% block title %} {{ parent() }} {% endblock %}
 {% block sidebar %} {{ parent() }} {% endblock %}
 {% block topnav %} {{ parent() }} {% endblock %}

@@ -38,14 +38,14 @@ class Reserva
     private $id;
 
     /**
-     * @var \AppBundle\Entity\EstadoReserva
-     */
-    private $estadoReserva;
-
-    /**
      * @var \AppBundle\Entity\Servicio
      */
     private $servicio;
+
+    /**
+     * @var \AppBundle\Entity\EstadoReserva
+     */
+    private $estadoReserva;
 
     /**
      * @var \AppBundle\Entity\Cliente
@@ -184,30 +184,6 @@ class Reserva
     }
 
     /**
-     * Set estadoReserva
-     *
-     * @param \AppBundle\Entity\EstadoReserva $estadoReserva
-     *
-     * @return Reserva
-     */
-    public function setEstadoReserva(\AppBundle\Entity\EstadoReserva $estadoReserva = null)
-    {
-        $this->estadoReserva = $estadoReserva;
-
-        return $this;
-    }
-
-    /**
-     * Get estadoReserva
-     *
-     * @return \AppBundle\Entity\EstadoReserva
-     */
-    public function getEstadoReserva()
-    {
-        return $this->estadoReserva;
-    }
-
-    /**
      * Set servicio
      *
      * @param \AppBundle\Entity\Servicio $servicio
@@ -229,6 +205,30 @@ class Reserva
     public function getServicio()
     {
         return $this->servicio;
+    }
+
+    /**
+     * Set estadoReserva
+     *
+     * @param \AppBundle\Entity\EstadoReserva $estadoReserva
+     *
+     * @return Reserva
+     */
+    public function setEstadoReserva(\AppBundle\Entity\EstadoReserva $estadoReserva = null)
+    {
+        $this->estadoReserva = $estadoReserva;
+
+        return $this;
+    }
+
+    /**
+     * Get estadoReserva
+     *
+     * @return \AppBundle\Entity\EstadoReserva
+     */
+    public function getEstadoReserva()
+    {
+        return $this->estadoReserva;
     }
 
     /**

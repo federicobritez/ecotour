@@ -3,6 +3,7 @@
   <entity name="AppBundle\Entity\Usuario" table="usuario">
     <indexes>
       <index name="fk_usuario_perfil1_idx" columns="perfil_id"/>
+      <index name="fk_usuario_cliente1_idx" columns="cliente_id"/>
     </indexes>
     <unique-constraints>
       <unique-constraint name="usuario_UNIQUE" columns="usuario"/>
@@ -24,6 +25,11 @@
     <many-to-one field="perfil" target-entity="Perfil" fetch="LAZY">
       <join-columns>
         <join-column name="perfil_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="cliente" target-entity="Cliente" fetch="LAZY">
+      <join-columns>
+        <join-column name="cliente_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
   </entity>

@@ -18,14 +18,14 @@
       </options>
     </field>
     <field name="valorTotal" type="float" column="valor_total" precision="10" scale="0" nullable="true"/>
-    <many-to-one field="estadoReserva" target-entity="EstadoReserva" fetch="LAZY">
-      <join-columns>
-        <join-column name="estado_reserva_id" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
     <many-to-one field="servicio" target-entity="Servicio" fetch="LAZY">
       <join-columns>
         <join-column name="servicio_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="estadoReserva" target-entity="EstadoReserva" fetch="LAZY">
+      <join-columns>
+        <join-column name="estado_reserva_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
     <many-to-one field="cliente" target-entity="Cliente" fetch="LAZY">

@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends app.session.get('usuario_template') %}
 {% block title %} {{ parent() }} {% endblock %}
 {% block sidebar %} {{ parent() }} {% endblock %}
 {% block topnav %} {{ parent() }} {% endblock %}
@@ -263,7 +263,7 @@
                    'localidad':localidad
                   },
             dataType: 'json',
-             success: function (response){              
+            success: function (response){              
                 //Respuesta
                 if(response.mje ==  "OK"){
                     new PNotify({
