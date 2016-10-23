@@ -507,7 +507,7 @@
 						
 						<!-- Guia De Pesca-->
 						
-						<div id="servicio7" class="col-md-6 col-xs-12">
+						<div id="servicio8" class="col-md-6 col-xs-12">
 							<div class="col-md-12 col-sm-12 col-xs-12">
 								<div class="x_panel">
 								  <div class="x_title">
@@ -658,15 +658,17 @@
 
       //Validaciones de Servicios seleccionados
       var servSelect = $('input[name="servicios[]"]:checked').map(function () {
+
               return this.value;
           }).get();
-      //console.debug(servSelect);
       
 
-      //Para la posada necesita que haya habitaciones marcadas
-      if(servSelect.indexOf("2")>=0){
+      //Para la posada necesita que haya habitaciones marcadas      
+      
+      if(servSelect.indexOf("2") >= 0){
 
-        var habitSelect = $('input[name="habitaciones[]:checked"]').map(function () { return this.value; }).get();
+        var habitSelect = $('input[name="habitaciones[]"]:checked').map(function () { return this.value; }).get();
+           console.debug("Habitaciones");
         console.debug(habitSelect);
 
         if(habitSelect.length == 0){

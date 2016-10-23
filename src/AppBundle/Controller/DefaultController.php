@@ -202,7 +202,8 @@ class DefaultController extends Controller
 		$horariosServ = array();
 		foreach($servReservables as $item){
 			$id = $item->getServicio()->getId();
-			$horarios = $conn->fetchAll('SELECT * FROM ecoturismo.horarios_servicio WHERE servicio_id ='.$id.' ORDER BY hora_inicio, hora_fin asc ;' );
+			
+			$horarios = $em->createQuery('SELECT hs FROM AppBundle:HorariosServicio WHERE hs.servicioId ='.$id.' ORDER BY hs.hora_inicio, hs.hora_fin asc' );
 
 			if(count($horarios)>0){
 				$horariosServ["$id"] = $horarios;
@@ -251,7 +252,8 @@ class DefaultController extends Controller
 
 		/*Servicios con horarios*/
 
-		$horarios = $conn->fetchAll('SELECT * FROM ecoturismo.horarios_servicio hs GROUP BY hs.servicio_id');
+		$qb = $em->createQueryBuilder()->select('hs')->from('AppBundle:HorariosServicio', 'hs')->groupBy('hs.servicio');
+		$horarios = $qb->getQuery()->getResult();
 		$horariosServ = array();
 		if(count($horarios)>0){
 			
