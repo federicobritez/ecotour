@@ -61,9 +61,9 @@
                               <i class="fa fa-circle"></i>
                             </div>
                             <div class="right">
-                              <h3>Login & Logout <small></small></h3>
-                              <h4> Registración al sistema </h4>
-                              <h4>Gestion de password y perfiles </h4>
+                              <h3>Ingreso y Salir<small></small></h3>
+                              <h4><a href="#registracion" data-toggle="tab">Registración al sistema</a></h4>
+                              <h4><a href="#pass" data-toggle="tab">Gestion de password y perfiles</a></h4>
                             </div>
                           </div>
                         </a>
@@ -75,8 +75,8 @@
                             </div>
                             <div class="right">
                               <h3>Reservas<small></small></h3>
-                              <h4>Gestión de Reserva: Añadir una reserva. </h4>
-                              <h4>Gestión de Estados Reserva: Cambiar el estado de una reserva. </h4>
+                              <h4><a href="#home" data-toggle="tab">Gestión de Reserva: Añadir una reserva. </a></h4>
+                              <h4><a href="#reservaCambiarEstado" data-toggle="tab">Gestión de Estados Reserva: Cambiar el estado de una reserva. </a></h4>
                             </div>
                           </div>
                         </a>
@@ -87,10 +87,10 @@
                             </div>
                             <div class="right">
                               <h3>Informes <small></small></h3>
-                              <h4><span class="badge"></span>Composición de los informes y datos contenidos. </h4>
-                              <h4>Búsqueda de información dentro de la tabla. </h4>
-                              <h4>Acceder a información adicional. </h4>
-                              <h4>Impresión de informes. </h4>
+                              <h4><span class="badge"></span><a href="#composi" data-toggle="tab">Composición de los informes y datos contenidos.</a></h4>
+                              <h4><a href="#busqueda" data-toggle="tab">Búsqueda de información dentro de la tabla.</a></h4>
+                              <h4><a href="#impresion" data-toggle="tab">Impresión de informes.</a></h4>
+                              <h4><a href="#adicional" data-toggle="tab">Acceder a información adicional.</a></h4>
                             </div>
                           </div>
                         </a>
@@ -101,10 +101,10 @@
                             </div>
                             <div class="right">
                               <h3>Clientes<small></small></h3>
-                              <h4><span class="badge">CC</span>Listar y buscar clientes. </h4>
-                              <h4> Como crear un nuevo cliente: Datos obligatorios. </h4>
-                              <h4> Selección y edición de cliente. </h4>
-                              <h4> Acciones asociadas: Información de consumos. Pagos. Compras. </h4>
+                              <h4><a href="#buscar" data-toggle="tab">Listar y buscar clientes.</a></h4>
+                              <h4><a href="#crear" data-toggle="tab"> Como crear un nuevo cliente: Datos obligatorios. </a></h4>
+                              <h4><a href="#edicion" data-toggle="tab"> Selección y edición de cliente. </a></h4>
+                              <h4><a href="#info" data-toggle="tab"> Acciones asociadas: Información de consumos. Pagos. Compras. </a></h4>
                             </div>
                           </div>
                         </a>
@@ -115,9 +115,9 @@
                             </div>
                             <div class="right">
                               <h3>Facturacion<small></small></h3>
-                              <h4>Como factura los consumos de un cliente . </h4>
-                              <h4>Tipo de Pagos disponibles por servicio. </h4>
-                              <h4>Detalles de factura. </h4>
+                              <h4><a href="#factu" data-toggle="tab">Como factura los consumos de un cliente . </a></h4>
+                              <h4><a href="#pagos" data-toggle="tab">Tipo de Pagos disponibles por servicio. </a></h4>
+                              <h4><a href="#detalle" data-toggle="tab">Detalles de factura. </a></h4>
                             </div>
                           </div>
                         </a>
@@ -128,93 +128,410 @@
                             </div>
                             <div class="right">
                               <h3>Servicios <small></small></h3>
-                              <h4>Servicios prestado.  </h4>
-                              <h4>Servicios consumibles en efectivo. </h4>
-                              <h4>Configuración de valores, limites, horarios, formas de pago.</h4>
+                              <h4><a href="#serv" data-toggle="tab">Servicios prestado. </a> </h4>
+                              <h4><a href="#noreservables" data-toggle="tab">Servicios consumibles en efectivo. </a></h4>
+                              <h4><a href="#config" data-toggle="tab">Configuración de valores, limites, horarios, formas de pago.</a></h4>
                             </div>
                           </div>
                         </a>
                        </div> 
                       <!-- /LISTA TEMAS -->
 
-                      <!-- CONTENT MAIL -->
+                      <!-- DETALLES DE TEMAS -->
                       <div class="col-sm-9 mail_view">
                         <div class="inbox-body">
                           <div class="mail_heading row">
-                            <div class="col-md-8">
-                              <!--<div class="btn-group">
-                                <button class="btn btn-sm btn-primary" type="button"><i class="fa fa-reply"></i> Reply</button>
-                                <button class="btn btn-sm btn-default" type="button"  data-placement="top" data-toggle="tooltip" data-original-title="Forward"><i class="fa fa-share"></i></button>
-                                <button class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Print"><i class="fa fa-print"></i></button>
-                                <button class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Trash"><i class="fa fa-trash-o"></i></button>
-                                
-                              </div>-->
-                            </div>
-                            <div class="col-md-4 text-right">
-                              <p class="date">Tema - reservas</p>
-                            </div>
-                            <div class="col-md-12">
-                              <h4> Ayuda acerca de las Reservas :</h4>
-                            </div>
-                          </div>
-                          <div class="sender-info">
-                            <div class="row">
-                              <div class="col-md-12">
-                              <!--
-                                <strong>Jon Doe</strong>
-                                <span>(jon.doe@gmail.com)</span> to
-                                <strong>me</strong>
-                                <a class="sender-dropdown"><i class="fa fa-chevron-down"></i></a>
-                                -->
+                            <div class="tab-content">
+                              <div class="tab-pane active" id="home">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - reservas</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Gestión de Reserva: Añadir una reserva.</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>Para añadir una reserva el usuario del sistema debe ingresar en la menú al ítem "Reservas".
+                                        Acontinuación "Añadir reservas", una vez allí podra cargar los datos de un nuevo cliente o
+                                        utilizar un cliente existente (fin paso 1). Se debe seleccionar el o los servicios a reservar (fin paso 2).
+                                        Según los servicios que se elegiecen en el paso anterior se deberá configurar la fecha, cantidad de personas,
+                                        horarios o camas (en el caso de la posada) </p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
+                            
+                              <div class="tab-pane" id="reservaCambiarEstado">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - reservas</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Gestión de Estados Reserva: Cambiar el estado de una reserva.</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>Para cambiar el estado de una reserva el usuario deberá ingresar al menú en "Reservas".
+                                        Una vez allí en "Lista de reservas" y seleccionando un estado podrá elegir la opción de "confirmada",
+                                         "lista de espera", "esperando confirmación", "cancelada", "vencida" o "efectuda". Según sea el caso
+                                         una vez seleccionado la reserva será actualizada en todo el sistema</p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div class="tab-pane" id="registracion">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Ingreso y salir</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Registración al sistema</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>Para registrarce al sistema el administrador debe dar de alta al nuevo usuario otorgandole
+                                        un nombre de usuario y una contraseña, además podrá restringir los permisos</p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div class="tab-pane" id="pass">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Ingreso y salir</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Gestion de password y perfiles</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>Para gestionar las contraseñas y los perfiles se debe ingresar al menú de usuario y seleccionar la opción 
+                                        configuración dónde se podrá cambiar la contraseña y en el caso de ser administrador cambiar el perfil de los
+                                        usuarios</p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="composi">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Informes</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Composición de los informes y datos contenidos.</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>Los informes está divididos en "Clientes atendidos" discriminado por servicio, "Reservas de mañana" 
+                                        discriminado por servicio y "Lista de espera" de los cliente que aún no consiguen una reserva en la fecha 
+                                        deseada</p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="busqueda">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Informes</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Búsqueda de información dentro de la tabla.</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>La búsqueda dentro de las tablas es muy simple, con solo ingresar DNI, nombre o algún otro dato
+                                        y se filtrará la tabla según la búsqueda solicitada.</p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="adicional">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Informes</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Acceder a información adicional.</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>El acceso información adicional puede encotrarlo en "Reservas"-->Lista reservas".
+                                        O bien en "Clientes"-->"Listado clientes".</p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="impresion">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Informes</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Impresión de informes.</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>La impresión  tanto de informes es tan sencilla como solo hacer un click en el botón imprimir.
+                                        De esa manera se abrirá el cuadro de impresión donde se puede optar por imprimir en pdf o una impresora
+                                        local </p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="buscar">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Clientes</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Listar y buscar clientes.</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>Para poder listar los clientes solo se debe Ingresar a "Clientes"-->"Listado cliente",
+                                         dónde podrá conocer información personal de los clientes, editar, realizar una búsqueda avanzada,
+                                         realizar un pago o abonar un servicio no reservable. </p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="crear">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Clientes</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Como crear un nuevo cliente: Datos obligatorios.</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>Hacerlo es muy fácil solo debe ingresar a "Clientes"-->"Crear Nuevo Cliente".
+                                        Solo debe saber que existen datos obligatorios como son nombre, apellido, DIN, país, provincia y localidad. </p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="edicion">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Clientes</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Selección y edición de cliente.</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>Para esto solo se debe ingresar a "Clientes"-->"Listado de Cliente" y buscar el cliente
+                                        con el cuadro de búsquedas y una vez encontrado en acciones podrá seleccionar editarlo. </p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="info">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Clientes</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Acciones asociadas: Información de consumos. Pagos. Compras.</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>El sistema cuenta con prestaciones que hacen posible conocer los consumos de un cliente en 
+                                        específico, realizar un pago de un servicio o gestionar la compra de un servicio no reservable </p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="factu">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Facturacion</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Como factura los consumos de un cliente .</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>Una forma sencilla de realizar la facturación de un cliente es ingresando a "Clientes"-->"Listado de Cliente"
+                                        "Acciones"-->"Facturar consumos"-->"Pagar"</p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="pagos">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Facturacion</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Tipo de Pagos disponibles por servicio.</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>El sistema está pensado para poder ser abonado de manera a crédito o al contado.
+                                        En el caso del pago a crédito cada tipo de tarjeta cuenta con direntes tipos de 
+                                        descuentos o intereses. </p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="detalle">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Facturacion</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Detalles de factura. </h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>La factura  detalla emisor, receptor, datos básicos de factura, el servicio detallado y los
+                                        cargos al total </p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="serv">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Servicios</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Servicios prestado.</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>Existen dos tipos de servicios, uno de ellos son los reservables que pueden ser reservados vía web
+                                        o bien telefónicamente. Los servicios prestados son camping, paseo náutico, posada, restaurante, cabalgata,
+                                         pesca y guía de pesca.</p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="noreservables">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Servicios</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Servicios consumibles en efectivo. </h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>Existen dos tipos de servicios, uno de ellos son los no reservables que son los consumidos
+                                        en efectivo y en el momento. Los mismos son museo, parrilla, largadero de lancha y la proveeduría. </p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="config">
+                                <div class="col-md-4 text-right">
+                                  <p class="date">Tema - Servicios</p>
+                                </div>
+                                <div class="col-md-12">
+                                  <h4> Configuración de valores, limites, horarios, formas de pago.</h4>
+                                    <div class="view-mail">                            
+                                        <p class="lead"></p>
+                                        <p>Ambos tipos de servicios pueden ser configurados según las necesidades de la empresa
+                                        así comoo los límites de capacidad de los servicios reservables, sus horarios y los tipos de
+                                        pagos (cuotas, descuentos e intereses). </p>
+                                    </div>
+                                    <div class="sender-info">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
                             </div>
                           </div>
-                          <div class="view-mail">
-                            <p>Para procesar una nueva reserva debe ir al menu lateral : Resarvas -> Añadir Reserva</p>
-                            <p>Se desplegara un formulario</p>
-                            <p>Parrafo 2 sobre el tema.</p>
-                          </div>
-                          <!--
-                          <div class="attachment">
-                            <p>
-                              <span><i class="fa fa-paperclip"></i> 3 attachments — </span>
-                              <a href="#">Descargar todas las imagenes</a> |
-                              <a href="#">Ver todas las imagens</a>
-                            </p>
-                            <ul>
-                              <li>
-                                <a href="#" class="atch-thumb">
-                                  <img src="{{ asset('assets/images/1.png') }}" alt="img" />
-                                </a>
-
-                                <div class="file-name">
-                                  img_name.jpg
-                                </div>
-                                <span>30KB</span>
-
-                                <div class="links">
-                                  <a href="#">View</a> -
-                                  <a href="#">Download</a>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                          -->
 
                          
-                        </div><!--Contenido -->
+                        </div><!--Contenido --><!--
                          <div class="btn-group">
                             <button class="btn btn-sm btn-primary" type="button"><i class="fa fa-reply"></i> Anterior</button>
                             <button class="btn btn-sm btn-default" type="button"  data-placement="top" data-toggle="tooltip" data-original-title="Forward"><i class="fa fa-share"></i>Siguiente</button>
                             <button class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Print"><i class="fa fa-print"></i>Imprimir</button>
                             <button class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Trash"><i class="fa fa-home"></i>Inicio</button>
-                          </div>
+                          </div>-->
                       </div>
                       <!-- /CONTENT -->
                     </div>
 
 
                   </div>
+
                 </div>
               </div>
             </div>
